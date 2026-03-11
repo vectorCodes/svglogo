@@ -1,22 +1,38 @@
 import { useCallback } from "react";
+import { trackDownload } from "#/lib/analytics";
 import { buildCanvasSvg } from "#/lib/canvasUtils";
 import { useLogoStore } from "#/store/logoStore";
 
 export function useExport() {
 	const present = useLogoStore((s) => s.present);
 
+	const track = useCallback(
+		(format: string) => {
+			trackDownload({
+				format,
+				icon: present.iconName,
+				color: present.iconColor,
+				border: present.iconBorderWidth,
+				background: present.background.type,
+			});
+		},
+		[present],
+	);
+
 	const exportSvg = useCallback(async () => {
 		const svgString = await buildCanvasSvg(present);
 		const blob = new Blob([svgString], { type: "image/svg+xml" });
 		download(blob, "logo.svg");
-	}, [present]);
+		track("svg");
+	}, [present, track]);
 
 	const exportPng = useCallback(async () => {
 		const canvas = await renderToCanvas(present, 512);
 		canvas.toBlob((blob) => {
 			if (blob) download(blob, "logo.png");
 		}, "image/png");
-	}, [present]);
+		track("png");
+	}, [present, track]);
 
 	const exportIco = useCallback(async () => {
 		const canvas = await renderToCanvas(present, 48);
@@ -25,8 +41,9 @@ export function useExport() {
 			const arrayBuffer = await blob.arrayBuffer();
 			const icoBuffer = pngToIco(new Uint8Array(arrayBuffer));
 			download(new Blob([icoBuffer], { type: "image/x-icon" }), "logo.ico");
+			track("ico");
 		}, "image/png");
-	}, [present]);
+	}, [present, track]);
 
 	return { exportSvg, exportPng, exportIco };
 }

@@ -6,19 +6,19 @@ export function BorderControl() {
 	const { borderWidth, borderColor, borderRadius, set } = useLogo();
 
 	return (
-    <div className="flex w-52 flex-col gap-3">
-     	<div className="flex items-center justify-between gap-3">
-					<Label className="text-sm text-muted">Select color</Label>
-					<InlineColorPicker
-						value={borderColor}
-						onChange={(c) =>
-							set((d) => {
-								d.borderColor = c;
-							})
-						}
-					/>
-      </div>
-      
+		<div className="flex w-52 flex-col gap-3">
+			<div className="flex items-center justify-between gap-3">
+				<Label className="text-sm text-muted">Select color</Label>
+				<InlineColorPicker
+					value={borderColor}
+					onChange={(c) =>
+						set((d) => {
+							d.borderColor = c;
+						})
+					}
+				/>
+			</div>
+
 			<Slider
 				value={borderWidth}
 				onChange={(v) =>
@@ -40,8 +40,8 @@ export function BorderControl() {
 					<Slider.Fill />
 					<Slider.Thumb />
 				</Slider.Track>
-      </Slider>
-			
+			</Slider>
+
 			<Slider
 				value={borderRadius}
 				onChange={(v) =>
