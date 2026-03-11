@@ -2,23 +2,35 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>svglogo.dev — Free SVG Logo Generator</title>
-    <meta key="title" content="svglogo.dev — Free SVG Logo Generator" property="og:title" />
+    <title>svglogo.dev - Free SVG Logo Generator</title>
     <meta
-      content="Create beautiful SVG logos instantly. Free, open-source logo generator."
+      name="description"
+      content="Create logos in seconds with icon, color, and background controls. Export high-quality SVG, PNG, and ICO from your browser."
+    />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
+    <link rel="canonical" href="https://svglogo.dev/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="svglogo.dev" />
+    <meta property="og:url" content="https://svglogo.dev/" />
+    <meta property="og:title" content="svglogo.dev - Free SVG Logo Generator" />
+    <meta
+      content="Create logos in seconds with icon, color, and background controls. Export high-quality SVG, PNG, and ICO from your browser."
       property="og:description"
     />
+    <meta property="og:image" content="https://svglogo.dev/logo512.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="svglogo.dev - Free SVG Logo Generator" />
     <meta
-      content="Create beautiful SVG logos instantly. Free, open-source logo generator."
-      name="description"
+      name="twitter:description"
+      content="Create logos in seconds with icon, color, and background controls. Export high-quality SVG, PNG, and ICO from your browser."
     />
-    <meta
-      key="viewport"
-      content="viewport-fit=cover, width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
-      name="viewport"
-    />
+    <meta name="twitter:image" content="https://svglogo.dev/logo512.png" />
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#f7f7f8" />
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#111214" />
+    <link rel="manifest" href="/manifest.json" />
+    <link rel="icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" href="/logo192.png" />
     <script type="module">
       if (import.meta.env.PROD) {
         const script = document.createElement("script");
@@ -28,7 +40,17 @@
         document.head.appendChild(script);
       }
     </script>
-    <link href="/favicon.ico" rel="icon" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "svglogo.dev",
+        "url": "https://svglogo.dev/",
+        "applicationCategory": "DesignApplication",
+        "operatingSystem": "Web",
+        "description": "Create logos in seconds with icon, color, and background controls. Export high-quality SVG, PNG, and ICO from your browser."
+      }
+    </script>
   </head>
   <body>
     <div id="root"></div>
