@@ -272,18 +272,11 @@ function DockPopover({
 }) {
 	return (
 		<Popover>
-			<Tooltip>
-				<Tooltip.Trigger>
-					<Popover.Trigger>
-						<Button isIconOnly variant="ghost" size="sm" aria-label={label}>
-							{icon}
-						</Button>
-					</Popover.Trigger>
-				</Tooltip.Trigger>
-				<Tooltip.Content>
-					<p className="text-xs">{label}</p>
-				</Tooltip.Content>
-			</Tooltip>
+			<Popover.Trigger>
+				<Button isIconOnly variant="ghost" size="sm" aria-label={label}>
+					{icon}
+				</Button>
+			</Popover.Trigger>
 			<Popover.Content placement="top">
 				<Popover.Dialog>{children}</Popover.Dialog>
 			</Popover.Content>
