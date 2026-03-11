@@ -1,4 +1,5 @@
 import { toast } from "@heroui/react";
+import { Icon } from "@iconify/react";
 import { createFileRoute } from "@tanstack/react-router";
 import { motion } from "framer-motion";
 import { useCallback } from "react";
@@ -11,6 +12,9 @@ import { useKbShortcut } from "#/hooks/useKbShortcut";
 import { useLogoStore } from "#/store/logoStore";
 
 export const Route = createFileRoute("/")({ component: Editor });
+
+const FEEDBACK_URL = "https://x.com/monawwarx";
+const DISCORD_URL = "https://discord.gg/qjxWBqtYZu";
 
 function Editor() {
 	const openIconPicker = useLogoStore((s) => s.openIconPicker);
@@ -104,6 +108,26 @@ function Editor() {
 			</motion.div>
 			<Dock />
 			<IconPickerModal />
+			<div className="pointer-events-auto absolute bottom-4 right-4 z-20 flex flex-col items-end gap-2">
+				<a
+					href={FEEDBACK_URL}
+					target="_blank"
+					rel="noreferrer"
+					className="inline-flex items-center gap-2 rounded-full border border-(--border) bg-(--surface)/90 px-3 py-1.5 text-xs text-(--foreground) shadow-lg backdrop-blur-xl transition hover:bg-(--surface-secondary)"
+				>
+					<Icon icon="simple-icons:x" width={12} height={12} />
+					Feedback
+				</a>
+				<a
+					href={DISCORD_URL}
+					target="_blank"
+					rel="noreferrer"
+					className="inline-flex items-center gap-2 rounded-full border border-(--border) bg-(--surface)/90 px-3 py-1.5 text-xs text-(--foreground) shadow-lg backdrop-blur-xl transition hover:bg-(--surface-secondary)"
+				>
+					<Icon icon="simple-icons:discord" width={12} height={12} />
+					Join Discord
+				</a>
+			</div>
 		</div>
 	);
 }
