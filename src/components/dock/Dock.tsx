@@ -66,7 +66,7 @@ export function Dock() {
 						initial={{ opacity: 0, y: 72 }}
 						animate={{ opacity: 1, y: 0 }}
 						transition={{ duration: 0.5, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
-						className="flex items-center rounded-2xl border border-(--border) bg-(--surface)/90 px-2 py-2 shadow-xl backdrop-blur-xl"
+						className="flex items-center rounded-2xl border border-border bg-surface/90 px-2 py-2 shadow-xl backdrop-blur-xl"
 					>
 						<Tooltip>
 							<Tooltip.Trigger>
@@ -235,30 +235,19 @@ export function Dock() {
 								})
 							}
 						/>
-					</DockPopover>
+          </DockPopover>
+					
+          <Divider />
+          
+          <ExportMenu />
 				</motion.div>
-
-				<div className="absolute left-full top-1/2 ml-2 -translate-y-1/2">
-					<motion.div
-						initial={{ opacity: 0, y: 72 }}
-						animate={{ opacity: 1, y: 0 }}
-						transition={{
-							duration: 0.5,
-							delay: 0.12,
-							ease: [0.22, 1, 0.36, 1],
-						}}
-						className="flex items-center rounded-2xl border border-(--border) bg-(--surface)/90 px-2 py-2 shadow-xl backdrop-blur-xl"
-					>
-						<ExportMenu />
-					</motion.div>
-				</div>
 			</div>
 		</div>
 	);
 }
 
 function Divider() {
-	return <div className="h-5 w-px bg-(--border) mx-1" />;
+	return <div className="h-5 w-px bg-border mx-1" />;
 }
 
 function DockPopover({
@@ -273,7 +262,7 @@ function DockPopover({
 	return (
 		<Popover>
 			<Popover.Trigger>
-				<Button isIconOnly variant="ghost" size="sm" aria-label={label}>
+				<Button isIconOnly variant="ghost" size="sm" aria-label={label} title={label}>
 					{icon}
 				</Button>
 			</Popover.Trigger>
