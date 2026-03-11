@@ -1,5 +1,7 @@
+import { toast } from "@heroui/react";
 import { createFileRoute } from "@tanstack/react-router";
 import { motion } from "framer-motion";
+import { useCallback } from "react";
 import { Credits } from "#/components/canvas/Credits";
 import { GridBackground } from "#/components/canvas/GridBackground";
 import { LogoCanvas } from "#/components/canvas/LogoCanvas";
@@ -12,8 +14,57 @@ export const Route = createFileRoute("/")({ component: Editor });
 
 function Editor() {
 	const openIconPicker = useLogoStore((s) => s.openIconPicker);
+	const present = useLogoStore((s) => s.present);
+	const set = useLogoStore((s) => s.set);
 
 	useKbShortcut("i", openIconPicker);
+	const copyCurrentSettings = useCallback(async () => {
+		const payload = JSON.stringify(present, null, 2);
+
+		try {
+			await navigator.clipboard.writeText(payload);
+			toast("Copied current settings");
+		} catch {
+			toast("Copy failed");
+		}
+	}, [present]);
+	useKbShortcut(
+		"c",
+		() => {
+			void copyCurrentSettings();
+		},
+		{ mod: "shift" },
+	);
+	const applySettingsFromClipboard = useCallback(async () => {
+		try {
+			const text = await navigator.clipboard.readText();
+			const parsed = JSON.parse(text);
+			if (!isLogoStateLike(parsed)) {
+				toast("Clipboard does not contain valid settings");
+				return;
+			}
+
+			set((d) => {
+				d.iconName = parsed.iconName;
+				d.iconColor = parsed.iconColor;
+				d.iconSize = parsed.iconSize;
+				d.background = parsed.background;
+				d.borderRadius = parsed.borderRadius;
+				d.borderWidth = parsed.borderWidth;
+				d.borderColor = parsed.borderColor;
+			});
+			toast("Applied settings from clipboard");
+		} catch {
+			toast("Paste failed");
+		}
+	}, [set]);
+	useKbShortcut(
+		"v",
+		() => {
+			void applySettingsFromClipboard();
+		},
+		{ mod: "shift" },
+	);
 
 	return (
 		<div className="relative flex h-screen w-screen items-center justify-center overflow-hidden">
@@ -30,4 +81,60 @@ function Editor() {
 			<IconPickerModal />
 		</div>
 	);
+}
+
+function isLogoStateLike(value: unknown): value is {
+	iconName: string;
+	iconColor: string;
+	iconSize: number;
+	background:
+		| { type: "solid"; color: string }
+		| {
+				type: "gradient";
+				direction: number;
+				stops: [
+					{ color: string; position: number },
+					{ color: string; position: number },
+				];
+		  };
+	borderRadius: number;
+	borderWidth: number;
+	borderColor: string;
+} {
+	if (!value || typeof value !== "object") return false;
+	const v = value as Record<string, unknown>;
+	if (
+		typeof v.iconName !== "string" ||
+		typeof v.iconColor !== "string" ||
+		typeof v.iconSize !== "number" ||
+		typeof v.borderRadius !== "number" ||
+		typeof v.borderWidth !== "number" ||
+		typeof v.borderColor !== "string" ||
+		!v.background ||
+		typeof v.background !== "object"
+	) {
+		return false;
+	}
+
+	const bg = v.background as Record<string, unknown>;
+	if (bg.type === "solid") {
+		return typeof bg.color === "string";
+	}
+	if (bg.type === "gradient") {
+		if (
+			typeof bg.direction !== "number" ||
+			!Array.isArray(bg.stops) ||
+			bg.stops.length !== 2
+		) {
+			return false;
+		}
+		const [a, b] = bg.stops as Array<Record<string, unknown>>;
+		return (
+			typeof a?.color === "string" &&
+			typeof a?.position === "number" &&
+			typeof b?.color === "string" &&
+			typeof b?.position === "number"
+		);
+	}
+	return false;
 }

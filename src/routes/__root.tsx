@@ -1,3 +1,4 @@
+import { Toast } from "@heroui/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { createRootRoute, Outlet } from "@tanstack/react-router";
 
@@ -12,6 +13,7 @@ export const Route = createRootRoute({
 function RootLayout() {
 	return (
 		<QueryClientProvider client={queryClient}>
+			<Toast.Provider placement="bottom end" />
 			<Outlet />
 		</QueryClientProvider>
 	);
