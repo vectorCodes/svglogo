@@ -14,10 +14,35 @@ export const Route = createFileRoute("/")({ component: Editor });
 
 function Editor() {
 	const openIconPicker = useLogoStore((s) => s.openIconPicker);
+	const undo = useLogoStore((s) => s.undo);
+	const redo = useLogoStore((s) => s.redo);
+	const canUndo = useLogoStore((s) => s.canUndo);
+	const canRedo = useLogoStore((s) => s.canRedo);
 	const present = useLogoStore((s) => s.present);
 	const set = useLogoStore((s) => s.set);
 
 	useKbShortcut("i", openIconPicker);
+	useKbShortcut(
+		"z",
+		() => {
+			if (canUndo()) undo();
+		},
+		{ mod: "cmd" },
+	);
+	useKbShortcut(
+		"z",
+		() => {
+			if (canRedo()) redo();
+		},
+		{ mod: ["cmd", "shift"] },
+	);
+	useKbShortcut(
+		"y",
+		() => {
+			if (canRedo()) redo();
+		},
+		{ mod: "ctrl" },
+	);
 	const copyCurrentSettings = useCallback(async () => {
 		const payload = JSON.stringify(present, null, 2);
 
