@@ -4,15 +4,18 @@ import { motion } from "framer-motion";
 import { useState } from "react";
 import { useLogo } from "#/hooks/useLogo";
 import { getRandomLogoVisual } from "#/lib/randomizeLogo";
+import { useLogoStore } from "#/store/logoStore";
 
 export function RandomizePopover() {
   const { set } = useLogo();
+  const currentIconName = useLogoStore((s) => s.present.iconName);
+  const selectedIconPrefix = useLogoStore((s) => s.selectedIconPrefix);
   const [diceRotation, setDiceRotation] = useState(0);
   const [isOpen, setIsOpen] = useState(false);
   const [randomizeIcon, setRandomizeIcon] = useState(true);
   const [randomizeBackground, setRandomizeBackground] = useState(true);
 
-  const randomizeVisual = ({
+  const randomizeVisual = async ({
     icon,
     background,
   }: {
@@ -22,7 +25,7 @@ export function RandomizePopover() {
     if (!icon && !background) return;
 
     setDiceRotation((r) => r + 360);
-    const next = getRandomLogoVisual();
+    const next = await getRandomLogoVisual(selectedIconPrefix, currentIconName);
     set((d) => {
       if (icon) d.iconName = next.iconName;
       if (background) d.background = next.background;
@@ -31,7 +34,10 @@ export function RandomizePopover() {
   };
 
   const runRandomize = () => {
-    randomizeVisual({ icon: randomizeIcon, background: randomizeBackground });
+    void randomizeVisual({
+      icon: randomizeIcon,
+      background: randomizeBackground,
+    });
   };
 
   const selectAllRandomizeTargets = () => {

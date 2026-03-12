@@ -29,6 +29,7 @@ interface StoreState {
   past: LogoState[];
   future: LogoState[];
   iconPickerOpen: boolean;
+  selectedIconPrefix: string;
 
   set: (updater: (draft: LogoState) => void) => void;
   undo: () => void;
@@ -37,6 +38,7 @@ interface StoreState {
   canRedo: () => boolean;
   openIconPicker: () => void;
   closeIconPicker: () => void;
+  setSelectedIconPrefix: (prefix: string) => void;
 }
 
 // Module-level debounce state (outside Zustand so it doesn't trigger renders)
@@ -146,6 +148,7 @@ export const useLogoStore = create<StoreState>()(
       past: [],
       future: [],
       iconPickerOpen: false,
+      selectedIconPrefix: "lucide",
 
       set: (updater) => {
         const current = get().present;
@@ -202,16 +205,27 @@ export const useLogoStore = create<StoreState>()(
 
       openIconPicker: () => get_set({ iconPickerOpen: true }),
       closeIconPicker: () => get_set({ iconPickerOpen: false }),
+      setSelectedIconPrefix: (prefix) =>
+        get_set({ selectedIconPrefix: prefix || "lucide" }),
     }),
     {
       name: "svglogo-state",
-      partialize: (s) => ({ present: s.present }),
+      partialize: (s) => ({
+        present: s.present,
+        selectedIconPrefix: s.selectedIconPrefix,
+      }),
       merge: (persisted, current) => {
         const data = persisted as Partial<StoreState>;
         const persistedPresent = sanitizeLogoState(data.present);
+        const selectedIconPrefix =
+          typeof data.selectedIconPrefix === "string" &&
+          data.selectedIconPrefix.length > 0
+            ? data.selectedIconPrefix
+            : "lucide";
         return {
           ...current,
           ...data,
+          selectedIconPrefix,
           present: {
             ...persistedPresent,
           },

@@ -1,45 +1,47 @@
 import type { Background } from "#/store/logoStore";
 
-const RANDOM_ICONS = [
-  "lucide:heart",
-  "lucide:sparkles",
-  "lucide:star",
-  "lucide:bolt",
-  "lucide:flame",
-  "lucide:leaf",
-  "lucide:rocket",
-  "lucide:gem",
-  "lucide:shield",
-  "lucide:zap",
-  "lucide:palette",
-  "lucide:crown",
-  "lucide:sun",
-  "lucide:moon-star",
-  "lucide:mountain",
-  "lucide:wave",
-  "lucide:music-3",
-  "lucide:bird",
-  "lucide:badge-check",
-  "lucide:brain",
-  "lucide:orbit",
-  "lucide:cpu",
-  "lucide:briefcase",
-  "lucide:coffee",
-  "lucide:camera",
-  "lucide:gamepad-2",
-  "lucide:film",
-  "lucide:headphones",
-  "lucide:shopping-bag",
-  "lucide:globe",
-];
+const ICONIFY_BASE = "https://api.iconify.design";
+const iconCollectionCache = new Map<string, string[]>();
 
-export function getRandomLogoVisual() {
+export async function getRandomLogoVisual(
+  prefix = "lucide",
+  fallbackIconName = "lucide:heart",
+) {
   const background = randomBackground();
+  const icons = await fetchAllIconsForPrefix(prefix);
   return {
-    iconName: randomFrom(RANDOM_ICONS),
+    iconName: icons.length > 0 ? randomFrom(icons) : fallbackIconName,
     iconColor: pickContrastingIconColor(background),
     background,
   };
+}
+
+async function fetchAllIconsForPrefix(prefix: string): Promise<string[]> {
+  const cached = iconCollectionCache.get(prefix);
+  if (cached) return cached;
+
+  try {
+    const res = await fetch(`${ICONIFY_BASE}/collection?prefix=${prefix}`);
+    if (!res.ok) return [];
+
+    const data = (await res.json()) as {
+      uncategorized?: string[];
+      categories?: Record<string, string[]>;
+    };
+
+    const uncategorized = Array.isArray(data.uncategorized)
+      ? data.uncategorized
+      : [];
+    const categorized = Object.values(data.categories ?? {}).flat();
+    const all = [...new Set([...uncategorized, ...categorized])]
+      .filter((name) => typeof name === "string" && name.length > 0)
+      .map((name) => `${prefix}:${name}`);
+
+    iconCollectionCache.set(prefix, all);
+    return all;
+  } catch {
+    return [];
+  }
 }
 
 function randomBackground(): Background {

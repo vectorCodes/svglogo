@@ -24,10 +24,11 @@ export function IconPickerModal() {
   const isOpen = useLogoStore((s) => s.iconPickerOpen);
   const closeIconPicker = useLogoStore((s) => s.closeIconPicker);
   const iconName = useLogoStore((s) => s.present.iconName);
+  const prefix = useLogoStore((s) => s.selectedIconPrefix);
+  const setSelectedIconPrefix = useLogoStore((s) => s.setSelectedIconPrefix);
   const set = useLogoStore((s) => s.set);
 
   const [query, setQuery] = useState("");
-  const [prefix, setPrefix] = useState("lucide");
   const [debouncedQuery, setDebouncedQuery] = useState("");
 
   useEffect(() => {
@@ -83,7 +84,9 @@ export function IconPickerModal() {
 
                 <Select
                   selectedKey={prefix}
-                  onSelectionChange={(key) => setPrefix(key as string)}
+                  onSelectionChange={(key) =>
+                    setSelectedIconPrefix(key as string)
+                  }
                   className="w-44"
                   aria-label="Icon set"
                   variant="secondary"
