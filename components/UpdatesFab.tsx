@@ -43,7 +43,7 @@ export default function UpdatesFab({
         <Button
           aria-label="Show updates"
           onClick={open}
-          className="fixed bottom-6 right-18 z-10"
+          className="fixed bottom-4 right-4 z-10"
           isIconOnly
           variant="outline"
           size="lg"
