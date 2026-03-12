@@ -2,8 +2,8 @@ import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Script from "next/script";
-import Footer from "#/components/Footer";
 import { Providers } from "#/components/Providers";
+import SiteFooter from "#/components/SiteFooter";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -88,7 +88,7 @@ export default function RootLayout({
         <Providers>
           <div className="flex min-h-screen flex-col">
             <div className="flex-1">{children}</div>
-            <Footer />
+            <SiteFooter />
           </div>
         </Providers>
         {process.env.NODE_ENV === "production" && (
