@@ -8,7 +8,6 @@ import { GridBackground } from "#/components/canvas/GridBackground";
 import { LogoCanvas } from "#/components/canvas/LogoCanvas";
 import { Dock } from "#/components/dock/Dock";
 import { IconPickerModal } from "#/components/icon-picker/IconPickerModal";
-import { RouteSeo } from "#/components/seo/RouteSeo";
 import { useKbShortcut } from "#/hooks/useKbShortcut";
 import { useLogoStore } from "#/store/logoStore";
 
@@ -96,11 +95,6 @@ function EditorPage() {
 
   return (
     <div className="relative flex h-screen w-screen items-center justify-center overflow-hidden">
-      <RouteSeo
-        title="svglogo.dev - Free SVG Logo Generator"
-        description="Create logos in seconds with icon, color, and background controls. Export high-quality SVG, PNG, and ICO from your browser."
-        path="/"
-      />
       <GridBackground />
       <motion.div
         initial={{ opacity: 0, scale: 0.92, y: 16 }}
