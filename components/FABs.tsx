@@ -33,7 +33,7 @@ function FABs() {
         opacity: { duration: 0.35, delay: 0.25, ease: [0.22, 1, 0.36, 1] },
         scale: { duration: 0.35, delay: 0.25, ease: [0.22, 1, 0.36, 1] },
       }}
-      className="pointer-events-auto absolute top-4 right-4 z-20 flex flex-col items-start gap-2"
+      className="pointer-events-auto absolute bottom-4 left-4 z-20 flex flex-col items-start gap-2"
     >
       <Tooltip delay={0}>
         <Link href={FEEDBACK_URL} target="_blank" rel="noreferrer">

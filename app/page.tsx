@@ -1,3 +1,4 @@
+import DesktopOnlyNotice from "#/components/DesktopOnlyNotice";
 import EditorPage from "#/components/EditorPage";
 import FABs from "#/components/FABs";
 import UpdatesFab from "#/components/UpdatesFab";
@@ -8,9 +9,12 @@ export default async function Home() {
 
   return (
     <>
-      <FABs />
-      <EditorPage />
-      <UpdatesFab notification={notification} />
+      <DesktopOnlyNotice />
+      <div className="hidden md:block">
+        <FABs />
+        <EditorPage />
+        <UpdatesFab notification={notification} />
+      </div>
     </>
   );
 }
