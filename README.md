@@ -1,36 +1,38 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+<p align="center">
+  <a href="https://botmate.dev">
+    <img src="https://github.com/user-attachments/assets/f01669c1-2dd7-4fb6-818a-28db8f11a1fd" width="80px" alt="BotMate logo" />
+  </a>
+</p>
 
-## Getting Started
+<h3 align="center">
+  svglogo.dev
+</h3>
+<p align="center">
+Generate clean icon-based logos instantly in your browser
+</p>
 
-First, run the development server:
+<p align="center"><a href="https://svglogo.dev/">Visit website</a> · <a href="https://discord.gg/qjxWBqtYZu">Join Discord</a> · <a href="https://x.com/monawwarx">Follow on X</a></p>
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+<br/>
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+<img width="100%" alt="banner" src="https://github.com/user-attachments/assets/f6582f3d-41d4-4a7f-a7dc-a35f2e09e691" />
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+<br/>
+<br/>
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
-## Learn More
+## 👋 About
 
-To learn more about Next.js, take a look at the following resources:
+svglogo.dev was built for situations where you need a logo quickly — for a side project, MVP, landing page, or repository — without spending time in complex design software.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Instead of designing from scratch, the tool lets you start with an icon and transform it into a logo using background styling, radius control, and export-ready formats. Everything runs directly in the browser, making it fast and accessible from anywhere.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+The interface is intentionally minimal so you can focus on generating logos rather than navigating a design suite.
 
-## Deploy on Vercel
+## ✨ Feedback
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Have feedback or ideas for improvement?
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Feel free to reach out on **X** ([@monawwarx](https://x.com/monawwarx)), or open a **Pull Request** if you'd like to contribute.
+
+Contributions, suggestions, and improvements are always welcome.
