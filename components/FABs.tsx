@@ -37,7 +37,7 @@ function FABs() {
         target="_blank"
         rel="noreferrer"
       >
-        <Button size="sm">
+        <Button size="sm" variant="ghost">
           <LogoGithub /> Star on Github
         </Button>
       </Link>
