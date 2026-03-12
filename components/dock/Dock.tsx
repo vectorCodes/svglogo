@@ -7,14 +7,13 @@ import Frame from "@gravity-ui/icons/Frame";
 import { Button, Label, Popover, Tooltip } from "@heroui/react";
 import { Icon } from "@iconify/react";
 import { motion } from "framer-motion";
-import { useState } from "react";
 import { useLogo } from "#/hooks/useLogo";
-import { getRandomLogoVisual } from "#/lib/randomizeLogo";
 import { useLogoStore } from "#/store/logoStore";
 import { BgControl } from "./BgControl";
 import { BorderControl } from "./BorderControl";
 import { ExportMenu } from "./ExportMenu";
 import { InlineColorPicker } from "./InlineColorPicker";
+import { RandomizePopover } from "./RandomizePopover";
 import { SliderControl } from "./SliderControl";
 
 export function Dock() {
@@ -30,16 +29,6 @@ export function Dock() {
     set,
   } = useLogo();
   const openIconPicker = useLogoStore((s) => s.openIconPicker);
-  const [diceRotation, setDiceRotation] = useState(0);
-  const randomizeVisual = () => {
-    setDiceRotation((r) => r + 360);
-    const next = getRandomLogoVisual();
-    set((d) => {
-      d.iconName = next.iconName;
-      d.iconColor = next.iconColor;
-      d.background = next.background;
-    });
-  };
 
   // const saveCombination = () => {
   // 	const storageKey = "svglogo-saved-combinations";
@@ -62,41 +51,14 @@ export function Dock() {
     <div className="fixed bottom-6 left-1/2 z-50 -translate-x-1/2">
       <div className="relative">
         <div className="absolute right-full top-1/2 mr-2 -translate-y-1/2">
-          <motion.div
-            initial={{ opacity: 0, y: 72 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
-            className="flex items-center rounded-2xl border border-border bg-surface/90 px-2 py-2 shadow-xl backdrop-blur-xl"
-          >
-            <Tooltip>
-              <Tooltip.Trigger tabIndex={-1}>
-                <Button
-                  isIconOnly
-                  variant="ghost"
-                  onPress={randomizeVisual}
-                  aria-label="Randomize icon, color and background"
-                >
-                  <motion.span
-                    animate={{ rotate: diceRotation }}
-                    transition={{ duration: 0.35, ease: "easeOut" }}
-                    style={{ display: "inline-flex" }}
-                  >
-                    <Icon icon="lucide:dice-5" width={16} height={16} />
-                  </motion.span>
-                </Button>
-              </Tooltip.Trigger>
-              <Tooltip.Content>
-                <p className="text-xs">Randomize</p>
-              </Tooltip.Content>
-            </Tooltip>
-          </motion.div>
+          <RandomizePopover />
         </div>
 
         <motion.div
           initial={{ opacity: 0, y: 72 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
-          className="flex items-center gap-2 rounded-2xl border border-(--border) bg-(--surface)/90 px-3 py-2 shadow-xl backdrop-blur-xl"
+          className="flex items-center gap-2 rounded-2xl border border-border bg-(--surface)/90 px-3 py-2 shadow-xl backdrop-blur-xl"
         >
           {/* Undo / Redo */}
           <Tooltip>
