@@ -40,11 +40,6 @@ export function RandomizePopover() {
     });
   };
 
-  const selectAllRandomizeTargets = () => {
-    setRandomizeIcon(true);
-    setRandomizeBackground(true);
-  };
-
   return (
     <motion.div
       initial={{ opacity: 0, y: 72 }}
@@ -100,22 +95,14 @@ export function RandomizePopover() {
                 </Switch>
               </div>
 
-              <div className="flex items-center justify-between gap-2 pt-1">
-                <Button
-                  size="sm"
-                  variant="ghost"
-                  onPress={selectAllRandomizeTargets}
-                >
-                  All
-                </Button>
-                <Button
-                  size="sm"
-                  onPress={runRandomize}
-                  isDisabled={!randomizeIcon && !randomizeBackground}
-                >
-                  Randomize
-                </Button>
-              </div>
+              <Button
+                size="sm"
+                onPress={runRandomize}
+                isDisabled={!randomizeIcon && !randomizeBackground}
+                className="w-full"
+              >
+                Randomize
+              </Button>
             </div>
           </Popover.Dialog>
         </Popover.Content>
