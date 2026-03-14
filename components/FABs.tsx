@@ -3,7 +3,7 @@
 import { LogoGithub } from "@gravity-ui/icons";
 import { Button, Modal, Tooltip } from "@heroui/react";
 import { Icon } from "@iconify/react";
-import { motion } from "framer-motion";
+import { motion, type Variants } from "framer-motion";
 import Link from "next/link";
 import { useState } from "react";
 
@@ -26,66 +26,95 @@ function FABs() {
   const open = () => setIsOpen(true);
   const dismiss = () => setIsOpen(false);
 
+  const containerVariants: Variants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.08,
+        delayChildren: 0.08,
+      },
+    },
+  };
+
+  const itemVariants: Variants = {
+    hidden: { opacity: 0, x: -24 },
+    visible: {
+      opacity: 1,
+      x: 0,
+      transition: {
+        type: "spring",
+        stiffness: 260,
+        damping: 20,
+      },
+    },
+  };
+
   return (
     <motion.div
-      initial={{ opacity: 0, scale: 0.96 }}
-      animate={{ opacity: 1, scale: 1 }}
-      transition={{
-        opacity: { duration: 0.35, delay: 0.25, ease: [0.22, 1, 0.36, 1] },
-        scale: { duration: 0.35, delay: 0.25, ease: [0.22, 1, 0.36, 1] },
-      }}
+      variants={containerVariants}
+      initial="hidden"
+      animate="visible"
       className="pointer-events-auto absolute bottom-4 left-4 z-20 flex flex-col items-start gap-2"
     >
-      <Tooltip delay={0}>
-        <Link href={FEEDBACK_URL} target="_blank" rel="noreferrer">
-          <Button variant="ghost" isIconOnly>
-            <Icon icon="simple-icons:x" width={12} height={12} />
-          </Button>
-        </Link>
-        <Tooltip.Content placement="left">
-          <p>Follow on X</p>
-        </Tooltip.Content>
-      </Tooltip>
+      <motion.div variants={itemVariants}>
+        <Tooltip delay={0}>
+          <Link href={FEEDBACK_URL} target="_blank" rel="noreferrer">
+            <Button variant="ghost" isIconOnly>
+              <Icon icon="simple-icons:x" width={12} height={12} />
+            </Button>
+          </Link>
+          <Tooltip.Content placement="left">
+            <p>Follow on X</p>
+          </Tooltip.Content>
+        </Tooltip>
+      </motion.div>
 
-      <Tooltip delay={0}>
-        <Link href={DISCORD_URL} target="_blank" rel="noreferrer">
-          <Button variant="ghost" isIconOnly>
-            <Icon icon="simple-icons:discord" width={12} height={12} />
-          </Button>
-        </Link>
-        <Tooltip.Content placement="left">
-          <p>Share your feedback</p>
-        </Tooltip.Content>
-      </Tooltip>
+      <motion.div variants={itemVariants}>
+        <Tooltip delay={0}>
+          <Link href={DISCORD_URL} target="_blank" rel="noreferrer">
+            <Button variant="ghost" isIconOnly>
+              <Icon icon="simple-icons:discord" width={12} height={12} />
+            </Button>
+          </Link>
+          <Tooltip.Content placement="left">
+            <p>Share your feedback</p>
+          </Tooltip.Content>
+        </Tooltip>
+      </motion.div>
 
-      <Tooltip delay={0}>
-        <Link
-          href="https://github.com/mxvsh/svglogo"
-          target="_blank"
-          rel="noreferrer"
-        >
-          <Button variant="ghost" isIconOnly>
-            <LogoGithub />
-          </Button>
-        </Link>
-        <Tooltip.Content placement="left">
-          <p>Star on GitHub</p>
-        </Tooltip.Content>
-      </Tooltip>
+      <motion.div variants={itemVariants}>
+        <Tooltip delay={0}>
+          <Link
+            href="https://github.com/mxvsh/svglogo"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <Button variant="ghost" isIconOnly>
+              <LogoGithub />
+            </Button>
+          </Link>
+          <Tooltip.Content placement="left">
+            <p>Star on GitHub</p>
+          </Tooltip.Content>
+        </Tooltip>
+      </motion.div>
 
-      <Tooltip delay={0}>
-        <Button
-          aria-label="Show info"
-          onClick={open}
-          isIconOnly
-          variant="ghost"
-        >
-          <Icon icon="lucide:info" width={28} height={28} />
-        </Button>
-        <Tooltip.Content placement="left">
-          <p>About</p>
-        </Tooltip.Content>
-      </Tooltip>
+      <motion.div variants={itemVariants}>
+        <Tooltip delay={0}>
+          <Button
+            aria-label="Show info"
+            onClick={open}
+            isIconOnly
+            variant="ghost"
+          >
+            <Icon icon="lucide:info" width={28} height={28} />
+          </Button>
+          <Tooltip.Content placement="left">
+            <p>About</p>
+          </Tooltip.Content>
+        </Tooltip>
+      </motion.div>
       <Modal
         isOpen={isOpen}
         onOpenChange={(open) => {

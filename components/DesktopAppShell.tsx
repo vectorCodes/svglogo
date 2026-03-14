@@ -1,6 +1,7 @@
 "use client";
 
 import dynamic from "next/dynamic";
+import { type Variants, motion } from "framer-motion";
 import { useEffect, useRef } from "react";
 import { CollectionsButton } from "#/components/CollectionsButton";
 import EditorPage from "#/components/EditorPage";
@@ -33,14 +34,47 @@ export default function DesktopAppShell({
     }
   }, [sharedLogo, set]);
 
+  const containerVariants: Variants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+        delayChildren: 0.3,
+      },
+    },
+  };
+
+  const itemVariants: Variants = {
+    hidden: { opacity: 0, y: 24 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        type: "spring",
+        stiffness: 260,
+        damping: 20,
+      },
+    },
+  };
+
   return (
     <div className="hidden md:block">
       <OnboardingTour />
       <FABs />
-      <div className="absolute bottom-6 right-6 z-50 flex flex-col gap-2 items-end">
-        <ShareButton />
-        <CollectionsButton />
-      </div>
+      <motion.div
+        variants={containerVariants}
+        initial="hidden"
+        animate="visible"
+        className="absolute bottom-6 right-6 z-50 flex flex-col gap-2 items-end"
+      >
+        <motion.div variants={itemVariants}>
+          <ShareButton />
+        </motion.div>
+        <motion.div variants={itemVariants}>
+          <CollectionsButton />
+        </motion.div>
+      </motion.div>
       <EditorPage />
       <UpdatesFab notification={notification} />
     </div>
