@@ -1,6 +1,7 @@
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { ImageResponse } from "next/og";
+import { fetchIconSvg } from "#/lib/iconifyCache";
 import { getIconOutlineOffsets } from "#/lib/iconOutline";
 import { redis } from "#/lib/redis";
 import type { LogoState } from "#/store/logoStore";
@@ -9,13 +10,6 @@ const appLogoDataUri = `data:image/png;base64,${readFileSync(
   join(process.cwd(), "public/logo192.png"),
 ).toString("base64")}`;
 
-function fetchWithTimeout(url: string, timeoutMs = 4000): Promise<Response> {
-  const controller = new AbortController();
-  const timer = setTimeout(() => controller.abort(), timeoutMs);
-  return fetch(url, { signal: controller.signal }).finally(() =>
-    clearTimeout(timer),
-  );
-}
 
 export async function GET(req: Request) {
   try {
@@ -52,17 +46,9 @@ export async function GET(req: Request) {
     const iconOutlineOffsets = getIconOutlineOffsets(scaledIconBorderWidth);
 
     const [iconSvg, borderSvg] = await Promise.all([
-      fetchWithTimeout(
-        `https://api.iconify.design/${prefix}/${name}.svg?color=${encodeURIComponent(
-          logo.iconColor,
-        )}&width=${iconPx}&height=${iconPx}`,
-      ).then((res) => res.text()),
+      fetchIconSvg(prefix, name, logo.iconColor, iconPx),
       iconOutlineOffsets.length > 0
-        ? fetchWithTimeout(
-            `https://api.iconify.design/${prefix}/${name}.svg?color=${encodeURIComponent(
-              logo.iconBorderColor,
-            )}&width=${iconPx}&height=${iconPx}`,
-          ).then((res) => res.text())
+        ? fetchIconSvg(prefix, name, logo.iconBorderColor, iconPx)
         : Promise.resolve(""),
     ]);
 
