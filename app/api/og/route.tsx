@@ -1,7 +1,21 @@
+import { readFileSync } from "node:fs";
+import { join } from "node:path";
 import { ImageResponse } from "next/og";
 import { getIconOutlineOffsets } from "#/lib/iconOutline";
 import { redis } from "#/lib/redis";
 import type { LogoState } from "#/store/logoStore";
+
+const appLogoDataUri = `data:image/png;base64,${readFileSync(
+  join(process.cwd(), "public/logo192.png"),
+).toString("base64")}`;
+
+function fetchWithTimeout(url: string, timeoutMs = 4000): Promise<Response> {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), timeoutMs);
+  return fetch(url, { signal: controller.signal }).finally(() =>
+    clearTimeout(timer),
+  );
+}
 
 export async function GET(req: Request) {
   try {
@@ -38,13 +52,13 @@ export async function GET(req: Request) {
     const iconOutlineOffsets = getIconOutlineOffsets(scaledIconBorderWidth);
 
     const [iconSvg, borderSvg] = await Promise.all([
-      fetch(
+      fetchWithTimeout(
         `https://api.iconify.design/${prefix}/${name}.svg?color=${encodeURIComponent(
           logo.iconColor,
         )}&width=${iconPx}&height=${iconPx}`,
       ).then((res) => res.text()),
       iconOutlineOffsets.length > 0
-        ? fetch(
+        ? fetchWithTimeout(
             `https://api.iconify.design/${prefix}/${name}.svg?color=${encodeURIComponent(
               logo.iconBorderColor,
             )}&width=${iconPx}&height=${iconPx}`,
@@ -56,11 +70,6 @@ export async function GET(req: Request) {
     const borderDataUri = borderSvg
       ? `data:image/svg+xml;base64,${Buffer.from(borderSvg).toString("base64")}`
       : "";
-
-    const appLogoRes = await fetch("https://svglogo.dev/logo192.png");
-    const appLogoDataUri = `data:image/png;base64,${Buffer.from(
-      await appLogoRes.arrayBuffer(),
-    ).toString("base64")}`;
 
     return new ImageResponse(
       <div
