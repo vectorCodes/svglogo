@@ -1,7 +1,7 @@
 import { ImageResponse } from "next/og";
+import { getIconOutlineOffsets } from "#/lib/iconOutline";
 import { redis } from "#/lib/redis";
 import type { LogoState } from "#/store/logoStore";
-import { getIconOutlineOffsets } from "#/lib/iconOutline";
 
 export async function GET(req: Request) {
   try {
@@ -32,7 +32,7 @@ export async function GET(req: Request) {
     const [prefix, name] = logo.iconName.split(":");
     const size = 420; // Size of the logo card in the OG image
     const iconPx = Math.round((logo.iconSize / 100) * size);
-    
+
     // Scale border width to the OG card size (original is based on 512px)
     const scaledIconBorderWidth = (logo.iconBorderWidth / 512) * size;
     const iconOutlineOffsets = getIconOutlineOffsets(scaledIconBorderWidth);
@@ -118,8 +118,9 @@ export async function GET(req: Request) {
               {/* Border/Outline Layers */}
               {borderDataUri &&
                 iconOutlineOffsets.map((offset, i) => (
+                  /** biome-ignore lint/performance/noImgElement: need this for og */
                   <img
-                    key={i}
+                    key={`${offset.x}-${offset.y}-${i}`}
                     alt=""
                     src={borderDataUri}
                     style={{
@@ -132,6 +133,7 @@ export async function GET(req: Request) {
                   />
                 ))}
               {/* Main Icon */}
+              {/** biome-ignore lint/performance/noImgElement: need this for og */}
               <img
                 alt="Logo Icon"
                 src={iconDataUri}

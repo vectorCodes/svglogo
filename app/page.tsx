@@ -15,18 +15,28 @@ export async function generateMetadata(props: {
   const ogImageUrl = `https://svglogo.dev/api/og?s=${s}`;
 
   return {
+    metadataBase: new URL("https://svglogo.dev"),
+    title: "SVGLogo.dev - Custom Logo",
+    description: "Check out this custom logo created on SVGLogo.dev",
     openGraph: {
+      type: "website",
+      siteName: "svglogo.dev",
+      title: "Custom Logo on SVGLogo.dev",
+      description: "Create your own professional icons in seconds.",
       images: [
         {
           url: ogImageUrl,
           width: 1200,
           height: 675,
-          alt: "Custom Logo on SVGLogo.dev",
+          alt: "Custom Logo",
         },
       ],
     },
     twitter: {
       card: "summary_large_image",
+      site: "@svglogo_dev",
+      title: "Custom Logo on SVGLogo.dev",
+      description: "Create your own professional icons in seconds.",
       images: [ogImageUrl],
     },
   };
