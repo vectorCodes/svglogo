@@ -21,9 +21,9 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: "svglogo.dev - Free SVG Logo Generator",
+  title: "SVG Logo Maker - Free SVG Logo Generator",
   description:
-    "Create logos in seconds with icon, color, and background controls. Export high-quality SVG, PNG, and ICO from your browser.",
+    "Free SVG logo maker to create professional icons and brand marks in seconds. Customize icons, colors, and backgrounds. Export high-quality SVG, PNG, and ICO from your browser.",
   robots: "index, follow, max-image-preview:large",
   alternates: {
     canonical: "https://svglogo.dev/",
@@ -37,9 +37,9 @@ export const metadata: Metadata = {
     type: "website",
     siteName: "svglogo.dev",
     url: "https://svglogo.dev/",
-    title: "svglogo.dev - Free SVG Logo Generator",
+    title: "SVG Logo Maker - Free SVG Logo Generator",
     description:
-      "Create logos in seconds with icon, color, and background controls. Export high-quality SVG, PNG, and ICO from your browser.",
+      "Free SVG logo maker to create professional icons and brand marks in seconds. Customize icons, colors, and backgrounds. Export high-quality SVG, PNG, and ICO from your browser.",
     images: [
       {
         url: "https://svglogo.dev/og/banner.png",
@@ -49,9 +49,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "svglogo.dev - Free SVG Logo Generator",
+    title: "SVG Logo Maker - Free SVG Logo Generator",
     description:
-      "Create logos in seconds with icon, color, and background controls. Export high-quality SVG, PNG, and ICO from your browser.",
+      "Free SVG logo maker to create professional icons and brand marks in seconds. Customize icons, colors, and backgrounds. Export high-quality SVG, PNG, and ICO from your browser.",
     images: ["https://svglogo.dev/og/banner.png"],
   },
 };
@@ -64,12 +64,12 @@ export default function RootLayout({
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "WebApplication",
-    name: "svglogo.dev",
+    name: "svglogo.dev - SVG Logo Maker",
     url: "https://svglogo.dev/",
     applicationCategory: "DesignApplication",
     operatingSystem: "Web",
     description:
-      "Create logos in seconds with icon, color, and background controls. Export high-quality SVG, PNG, and ICO from your browser.",
+      "Free SVG logo maker to create professional icons and brand marks in seconds. Customize icons, colors, and backgrounds. Export high-quality SVG, PNG, and ICO from your browser.",
     image: "https://svglogo.dev/og/banner.png",
   };
 

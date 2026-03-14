@@ -1,31 +1,37 @@
 import Link from "next/link";
+import { HomeSeoContent } from "./seo/HomeSeoContent";
+import Footer from "./Footer";
 
 export default function DesktopOnlyNotice() {
   return (
-    <main className="min-h-screen bg-background md:hidden">
-      <section className="mx-auto max-w-6xl px-6 py-16 sm:px-8 lg:px-10">
-        <div className="rounded-[2rem] border border-border bg-surface p-8 shadow-sm sm:p-12">
-          <p className="text-sm font-medium uppercase tracking-[0.22em] text-accent">
-            Desktop Only
-          </p>
-          <h1 className="mt-4 max-w-3xl text-4xl font-semibold tracking-tight sm:text-5xl">
-            Open the logo editor on a desktop
-          </h1>
-          <p className="mt-5 max-w-3xl text-base leading-7 text-muted sm:text-lg">
-            svglogo.dev works best on desktop, where there is enough space for
-            the canvas, controls, and export actions. Open it on a laptop or
-            desktop browser to use the full editor.
-          </p>
-          <div className="mt-8 flex flex-wrap gap-3">
-            <Link
-              href="/logo-maker"
-              className="rounded-2xl bg-accent px-5 py-3 text-sm font-medium text-accent-foreground transition hover:opacity-90"
-            >
-              Learn about the logo maker
-            </Link>
+    <div className="md:hidden">
+      <main className="min-h-screen bg-background">
+        <section className="mx-auto max-w-6xl px-6 py-16 sm:px-8 lg:px-10">
+          <div className="rounded-[2rem] border border-border bg-surface p-8 shadow-sm sm:p-12">
+            <p className="text-sm font-medium uppercase tracking-[0.22em] text-accent">
+              Desktop Only
+            </p>
+            <h1 className="mt-4 max-w-3xl text-4xl font-semibold tracking-tight sm:text-5xl">
+              Open the logo editor on a desktop
+            </h1>
+            <p className="mt-5 max-w-3xl text-base leading-7 text-muted sm:text-lg">
+              svglogo.dev works best on desktop, where there is enough space for
+              the canvas, controls, and export actions. Open it on a laptop or
+              desktop browser to use the full editor.
+            </p>
+            <div className="mt-8 flex flex-wrap gap-3">
+              <Link
+                href="/logo-maker"
+                className="rounded-2xl bg-accent px-5 py-3 text-sm font-medium text-accent-foreground transition hover:opacity-90"
+              >
+                Learn about the logo maker
+              </Link>
+            </div>
           </div>
-        </div>
-      </section>
-    </main>
+        </section>
+        <HomeSeoContent />
+      </main>
+      <Footer />
+    </div>
   );
 }
