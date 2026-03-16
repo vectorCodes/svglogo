@@ -17,23 +17,46 @@ export function buildBackgroundCss(bg: Background): React.CSSProperties {
   };
 }
 
-/** Fetch icon SVG from Iconify API and embed it */
-export async function buildCanvasSvg(
+export type IconSvgCache = {
+  iconSvgContent: string;
+  borderSvgContent: string;
+};
+
+const FETCH_SIZE = 256;
+
+/** Fetch icon SVGs — call only when iconName/iconColor/iconBorderColor/iconBorderWidth change */
+export async function fetchIconSvgs(state: LogoState): Promise<IconSvgCache> {
+  const { iconName, iconColor, iconBorderColor, iconBorderWidth } = state;
+  const safeIconBorderWidth = Number.isFinite(iconBorderWidth)
+    ? Math.min(24, Math.max(0, iconBorderWidth))
+    : 0;
+  const iconOutlineOffsets = getIconOutlineOffsets(safeIconBorderWidth);
+
+  const [iconSvgContent, borderSvgContent] = await Promise.all([
+    fetchIconSvg(iconName, iconColor, FETCH_SIZE),
+    iconOutlineOffsets.length > 0
+      ? fetchIconSvg(iconName, iconBorderColor, FETCH_SIZE)
+      : Promise.resolve(""),
+  ]);
+  return { iconSvgContent, borderSvgContent };
+}
+
+/** Build SVG string synchronously from cached icon SVGs — no network call */
+export function buildCanvasSvgSync(
   state: LogoState,
+  cache: IconSvgCache,
   size = 512,
-): Promise<string> {
+): string {
   const {
-    iconName,
-    iconColor,
-    iconBorderColor,
-    iconBorderWidth,
     iconSize,
     iconRotation,
+    iconBorderWidth,
     background,
     borderRadius,
     borderWidth,
     borderColor,
   } = state;
+  const { iconSvgContent, borderSvgContent } = cache;
 
   const safeIconSize = Number.isFinite(iconSize)
     ? Math.min(90, Math.max(10, iconSize))
@@ -52,14 +75,6 @@ export async function buildCanvasSvg(
   const iconOffset = Math.round((size - iconPx) / 2);
   const iconOutlineOffsets = getIconOutlineOffsets(safeIconBorderWidth);
 
-  const [iconSvgContent, borderSvgContent] = await Promise.all([
-    fetchIconSvg(iconName, iconColor, iconPx),
-    iconOutlineOffsets.length > 0
-      ? fetchIconSvg(iconName, iconBorderColor, iconPx)
-      : Promise.resolve(""),
-  ]);
-
-  // Build background definition
   let bgDef = "";
   let bgFill = "";
   if (background.type === "solid") {
@@ -85,7 +100,6 @@ export async function buildCanvasSvg(
       ? `stroke="${borderColor}" stroke-width="${safeBorderWidth * 2}"`
       : "";
 
-  // Clip the icon SVG within the canvas
   const clippedBorderIcon =
     borderSvgContent && iconOutlineOffsets.length > 0
       ? iconOutlineOffsets
@@ -114,6 +128,15 @@ export async function buildCanvasSvg(
     </g>
   </g>
 </svg>`;
+}
+
+/** Convenience wrapper for export — fetches + builds in one call */
+export async function buildCanvasSvg(
+  state: LogoState,
+  size = 512,
+): Promise<string> {
+  const cache = await fetchIconSvgs(state);
+  return buildCanvasSvgSync(state, cache, size);
 }
 
 async function fetchIconSvg(

@@ -1,24 +1,46 @@
-import { useEffect, useState } from "react";
-import { buildBackgroundCss, buildCanvasSvg } from "#/lib/canvasUtils";
+import { useEffect, useRef, useState } from "react";
+import {
+  buildBackgroundCss,
+  buildCanvasSvgSync,
+  fetchIconSvgs,
+  type IconSvgCache,
+} from "#/lib/canvasUtils";
 import { useLogoStore } from "#/store/logoStore";
 
 export function LogoCanvas() {
   const present = useLogoStore((s) => s.present);
   const [svg, setSvg] = useState<string>("");
+  const cacheRef = useRef<IconSvgCache | null>(null);
 
   const bgStyle = buildBackgroundCss(present.background);
 
+  // Fetch icon SVGs only when the icon identity fields change
   useEffect(() => {
     let cancelled = false;
 
-    buildCanvasSvg(present, 512).then((s) => {
-      if (!cancelled) setSvg(s);
+    fetchIconSvgs(present).then((cache) => {
+      if (cancelled) return;
+      cacheRef.current = cache;
+      setSvg(buildCanvasSvgSync(present, cache, 512));
     });
 
     return () => {
       cancelled = true;
     };
-  }, [present]);
+  }, [present.iconName, present.iconColor, present.iconBorderColor, present.iconBorderWidth]);
+
+  // Rebuild synchronously from cache when only layout/transform props change
+  useEffect(() => {
+    if (!cacheRef.current) return;
+    setSvg(buildCanvasSvgSync(present, cacheRef.current, 512));
+  }, [
+    present.iconSize,
+    present.iconRotation,
+    present.background,
+    present.borderRadius,
+    present.borderWidth,
+    present.borderColor,
+  ]);
 
   return (
     <div
