@@ -1,49 +1,7 @@
-import {
-  ColorArea,
-  ColorPicker,
-  ColorSlider,
-  ColorSwatch,
-  Label,
-  Slider,
-  Switch,
-} from "@heroui/react";
-import type { Color } from "react-aria-components";
+import { Label, Slider, Switch } from "@heroui/react";
 import { useLogo } from "#/hooks/useLogo";
 import type { GradientStop } from "#/store/logoStore";
-
-function ColorSwatchPopover({
-  value,
-  onChange,
-}: {
-  value: string;
-  onChange: (hex: string) => void;
-}) {
-  return (
-    <ColorPicker
-      value={value}
-      onChange={(c: Color) => onChange(c.toString("hex"))}
-    >
-      <ColorPicker.Trigger>
-        <ColorSwatch size="sm" shape="circle" />
-      </ColorPicker.Trigger>
-      <ColorPicker.Popover placement="top">
-        <ColorArea
-          colorSpace="hsb"
-          xChannel="saturation"
-          yChannel="brightness"
-          className="max-w-full"
-        >
-          <ColorArea.Thumb />
-        </ColorArea>
-        <ColorSlider channel="hue" colorSpace="hsb" className="px-1 mt-2">
-          <ColorSlider.Track>
-            <ColorSlider.Thumb />
-          </ColorSlider.Track>
-        </ColorSlider>
-      </ColorPicker.Popover>
-    </ColorPicker>
-  );
-}
+import { InlineColorPicker } from "./InlineColorPicker";
 
 export function BgControl() {
   const { background, set } = useLogo();
@@ -87,7 +45,7 @@ export function BgControl() {
       {!isGradient && background.type === "solid" && (
         <div className="flex items-center justify-between gap-3">
           <Label className="text-sm text-muted">Color</Label>
-          <ColorSwatchPopover
+          <InlineColorPicker
             value={background.color}
             onChange={(c) =>
               set((d) => {
@@ -158,7 +116,7 @@ function GradientTab({
           className="flex items-center gap-3"
         >
           <span className="text-xs text-muted w-12 shrink-0">Stop {i + 1}</span>
-          <ColorSwatchPopover
+          <InlineColorPicker
             value={stop.color}
             onChange={(c) => onStop(i, { ...stop, color: c })}
           />
