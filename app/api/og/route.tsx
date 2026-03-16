@@ -110,36 +110,46 @@ export async function GET(req: Request) {
                 position: "relative",
               }}
             >
-              {/* Border/Outline Layers */}
-              {borderDataUri &&
-                iconOutlineOffsets.map((offset, i) => (
-                  /** biome-ignore lint/performance/noImgElement: need this for og */
-                  <img
-                    key={`${offset.x}-${offset.y}-${i}`}
-                    alt=""
-                    src={borderDataUri}
-                    style={{
-                      position: "absolute",
-                      width: `${iconPx}px`,
-                      height: `${iconPx}px`,
-                      left: `${(size - iconPx) / 2 + offset.x}px`,
-                      top: `${(size - iconPx) / 2 + offset.y}px`,
-                    }}
-                  />
-                ))}
-              {/* Main Icon */}
-              {/** biome-ignore lint/performance/noImgElement: need this for og */}
-              <img
-                alt="Logo Icon"
-                src={iconDataUri}
+              {/* Rotating wrapper for icon + border layers */}
+              <div
                 style={{
                   position: "absolute",
-                  width: `${iconPx}px`,
-                  height: `${iconPx}px`,
-                  left: `${(size - iconPx) / 2}px`,
-                  top: `${(size - iconPx) / 2}px`,
+                  inset: 0,
+                  display: "flex",
+                  transform: `rotate(${logo.iconRotation ?? 0}deg)`,
                 }}
-              />
+              >
+                {/* Border/Outline Layers */}
+                {borderDataUri &&
+                  iconOutlineOffsets.map((offset, i) => (
+                    /** biome-ignore lint/performance/noImgElement: need this for og */
+                    <img
+                      key={`${offset.x}-${offset.y}-${i}`}
+                      alt=""
+                      src={borderDataUri}
+                      style={{
+                        position: "absolute",
+                        width: `${iconPx}px`,
+                        height: `${iconPx}px`,
+                        left: `${(size - iconPx) / 2 + offset.x}px`,
+                        top: `${(size - iconPx) / 2 + offset.y}px`,
+                      }}
+                    />
+                  ))}
+                {/* Main Icon */}
+                {/** biome-ignore lint/performance/noImgElement: need this for og */}
+                <img
+                  alt="Logo Icon"
+                  src={iconDataUri}
+                  style={{
+                    position: "absolute",
+                    width: `${iconPx}px`,
+                    height: `${iconPx}px`,
+                    left: `${(size - iconPx) / 2}px`,
+                    top: `${(size - iconPx) / 2}px`,
+                  }}
+                />
+              </div>
             </div>
           </div>
 

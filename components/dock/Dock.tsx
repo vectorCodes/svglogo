@@ -27,6 +27,7 @@ export function Dock() {
     iconBorderColor,
     iconBorderWidth,
     iconSize,
+    iconRotation,
     set,
   } = useLogo();
   const openIconPicker = useLogoStore((s) => s.openIconPicker);
@@ -181,21 +182,35 @@ export function Dock() {
           </DockPopover>
 
           <DockPopover
-            label="Icon Size"
+            label="Icon Transform"
             icon={<ArrowsExpand width={16} height={16} />}
           >
-            <SliderControl
-              label="Icon Size"
-              value={iconSize}
-              min={10}
-              max={90}
-              unit="%"
-              onChange={(v) =>
-                set((d) => {
-                  d.iconSize = v;
-                })
-              }
-            />
+            <div className="flex w-52 flex-col gap-4">
+              <SliderControl
+                label="Rotate"
+                value={iconRotation}
+                min={0}
+                max={360}
+                unit="°"
+                onChange={(v) =>
+                  set((d) => {
+                    d.iconRotation = v;
+                  })
+                }
+              />
+              <SliderControl
+                label="Size"
+                value={iconSize}
+                min={10}
+                max={90}
+                unit="%"
+                onChange={(v) =>
+                  set((d) => {
+                    d.iconSize = v;
+                  })
+                }
+              />
+            </div>
           </DockPopover>
 
           <div className="hidden md:contents">

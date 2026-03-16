@@ -28,6 +28,7 @@ export async function buildCanvasSvg(
     iconBorderColor,
     iconBorderWidth,
     iconSize,
+    iconRotation,
     background,
     borderRadius,
     borderWidth,
@@ -107,8 +108,10 @@ export async function buildCanvasSvg(
   </defs>
   <rect width="${size}" height="${size}" rx="${safeBorderRadius}" ry="${safeBorderRadius}" fill="${bgFill}" ${borderAttr} clip-path="url(#canvas-clip)"/>
   <g clip-path="url(#canvas-clip)">
-    ${clippedBorderIcon}
-    ${clippedIcon}
+    <g transform="rotate(${iconRotation ?? 0}, ${size / 2}, ${size / 2})">
+      ${clippedBorderIcon}
+      ${clippedIcon}
+    </g>
   </g>
 </svg>`;
 }

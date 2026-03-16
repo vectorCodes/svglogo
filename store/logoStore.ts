@@ -18,6 +18,7 @@ export interface LogoState {
   iconBorderColor: string;
   iconBorderWidth: number; // 0–24 px
   iconSize: number; // 10–90, percent of canvas
+  iconRotation: number; // 0–360 degrees
   background: Background;
   borderRadius: number; // 0–256 px
   borderWidth: number; // 0–24 px
@@ -65,6 +66,7 @@ const DEFAULT: LogoState = {
   iconBorderColor: "#111111",
   iconBorderWidth: 18,
   iconSize: 60,
+  iconRotation: 0,
   background: {
     type: "gradient",
     direction: 135,
@@ -144,6 +146,7 @@ function sanitizeLogoState(value: unknown): LogoState {
     iconBorderColor: safeColor(v.iconBorderColor, DEFAULT.iconBorderColor),
     iconBorderWidth: clamp(v.iconBorderWidth, 0, 24, DEFAULT.iconBorderWidth),
     iconSize: clamp(v.iconSize, 10, 90, DEFAULT.iconSize),
+    iconRotation: clamp(v.iconRotation, 0, 360, DEFAULT.iconRotation),
     background: sanitizeBackground(v.background),
     borderRadius: clamp(v.borderRadius, 0, 256, DEFAULT.borderRadius),
     borderWidth: clamp(v.borderWidth, 0, 24, DEFAULT.borderWidth),
@@ -157,6 +160,7 @@ export function areLogosEqual(a: LogoState, b: LogoState) {
   if (a.iconBorderColor !== b.iconBorderColor) return false;
   if (a.iconBorderWidth !== b.iconBorderWidth) return false;
   if (a.iconSize !== b.iconSize) return false;
+  if (a.iconRotation !== b.iconRotation) return false;
   if (a.borderRadius !== b.borderRadius) return false;
   if (a.borderWidth !== b.borderWidth) return false;
   if (a.borderColor !== b.borderColor) return false;
