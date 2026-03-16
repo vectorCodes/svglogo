@@ -69,11 +69,13 @@ export function IconPickerModal() {
             <Modal.Body className="p-0 overflow-visible">
               <div className="flex gap-2 pt-3">
                 <SearchField
-                  autoFocus
+                  autoFocus={
+                    typeof window !== "undefined" && window.innerWidth >= 768
+                  }
                   variant="secondary"
                   value={query}
                   onChange={setQuery}
-                  className="flex-1"
+                  className="flex-1 max-w-48 md:max-w-120"
                   aria-label="Search icons"
                 >
                   <SearchField.Group>
@@ -85,12 +87,14 @@ export function IconPickerModal() {
                   </SearchField.Group>
                 </SearchField>
 
+                <div className="flex-1 md:flex-auto" />
+
                 <Select
                   selectedKey={prefix}
                   onSelectionChange={(key) =>
                     setSelectedIconPrefix(key as string)
                   }
-                  className="w-44"
+                  className="min-w-32 md:w-40"
                   aria-label="Icon set"
                   variant="secondary"
                 >

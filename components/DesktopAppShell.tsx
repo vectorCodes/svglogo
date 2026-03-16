@@ -8,6 +8,7 @@ import EditorPage from "#/components/EditorPage";
 import FABs from "#/components/FABs";
 import { ShareButton } from "#/components/ShareButton";
 import UpdatesFab from "#/components/UpdatesFab";
+import { MobileTopBar } from "#/components/MobileTopBar";
 import type { AppNotification } from "#/lib/notifications";
 import { type LogoState, useLogoStore } from "#/store/logoStore";
 
@@ -34,6 +35,14 @@ export default function DesktopAppShell({
     }
   }, [sharedLogo, set]);
 
+  useEffect(() => {
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = prev;
+    };
+  }, []);
+
   const containerVariants: Variants = {
     hidden: { opacity: 0 },
     visible: {
@@ -59,24 +68,28 @@ export default function DesktopAppShell({
   };
 
   return (
-    <div className="hidden md:block">
-      <OnboardingTour />
-      <FABs />
-      <motion.div
-        variants={containerVariants}
-        initial="hidden"
-        animate="visible"
-        className="absolute bottom-6 right-6 z-50 flex flex-col gap-2 items-end"
-      >
-        <motion.div variants={itemVariants}>
-          <ShareButton />
+    <div className="block">
+      <MobileTopBar />
+
+      <div className="hidden md:block">
+        <OnboardingTour />
+        <FABs />
+        <motion.div
+          variants={containerVariants}
+          initial="hidden"
+          animate="visible"
+          className="absolute bottom-6 right-6 z-50 flex flex-col gap-2 items-end"
+        >
+          <motion.div variants={itemVariants}>
+            <ShareButton />
+          </motion.div>
+          <motion.div variants={itemVariants}>
+            <CollectionsButton />
+          </motion.div>
         </motion.div>
-        <motion.div variants={itemVariants}>
-          <CollectionsButton />
-        </motion.div>
-      </motion.div>
+        <UpdatesFab notification={notification} />
+      </div>
       <EditorPage />
-      <UpdatesFab notification={notification} />
     </div>
   );
 }

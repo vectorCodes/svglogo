@@ -3,8 +3,12 @@ import { Icon } from "@iconify/react";
 import { useVirtualizer } from "@tanstack/react-virtual";
 import { useRef } from "react";
 
-const COLS = 8;
 const CELL = 56;
+
+function useCols() {
+  if (typeof window === "undefined") return 8;
+  return window.innerWidth < 768 ? 6 : 8;
+}
 
 interface IconGridProps {
   icons: string[];
@@ -20,6 +24,7 @@ export function IconGrid({
   onSelect,
 }: IconGridProps) {
   const parentRef = useRef<HTMLDivElement>(null);
+  const COLS = useCols();
   const rowCount = Math.ceil(icons.length / COLS);
 
   const rowVirtualizer = useVirtualizer({

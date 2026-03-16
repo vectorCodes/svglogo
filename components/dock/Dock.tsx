@@ -32,13 +32,13 @@ export function Dock() {
   const openIconPicker = useLogoStore((s) => s.openIconPicker);
 
   return (
-    <div className="fixed bottom-6 left-1/2 z-50 -translate-x-1/2">
+    <div className="fixed bottom-3 left-1/2 z-50 -translate-x-1/2 max-w-[calc(100vw-1.5rem)] md:bottom-6 md:max-w-none">
       <div className="relative">
-        <div className="absolute right-full top-1/2 mr-2 -translate-y-1/2">
+        <div className="hidden md:block absolute right-full top-1/2 mr-2 -translate-y-1/2">
           <RandomizePopover />
         </div>
 
-        <div className="absolute left-full top-1/2 ml-2 -translate-y-1/2">
+        <div className="hidden md:block absolute left-full top-1/2 ml-2 -translate-y-1/2">
           <HistoryButton />
         </div>
 
@@ -46,9 +46,9 @@ export function Dock() {
           initial={{ opacity: 0, y: 72 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
-          className="flex items-center gap-2 rounded-2xl border border-border bg-surface/90 px-3 py-2 shadow-xl backdrop-blur-xl"
+          className="flex items-center rounded-2xl border border-border bg-surface/90 px-2 py-2 shadow-xl backdrop-blur-xl"
         >
-          {/* Undo / Redo */}
+          {/* Undo — left anchor (always visible) */}
           <Tooltip>
             <Tooltip.Trigger tabIndex={-1}>
               <Button
@@ -67,25 +67,31 @@ export function Dock() {
             </Tooltip.Content>
           </Tooltip>
 
-          <Tooltip>
-            <Tooltip.Trigger tabIndex={-1}>
-              <Button
-                isIconOnly
-                variant="ghost"
-                size="sm"
-                isDisabled={!canRedo()}
-                onPress={redo}
-                aria-label="Redo"
-              >
-                <ArrowRotateRight width={16} height={16} />
-              </Button>
-            </Tooltip.Trigger>
-            <Tooltip.Content>
-              <p className="text-xs">Redo (⌘⇧Z)</p>
-            </Tooltip.Content>
-          </Tooltip>
+          {/* Desktop redo sits next to undo */}
+          <div className="hidden md:contents">
+            <Tooltip>
+              <Tooltip.Trigger tabIndex={-1}>
+                <Button
+                  isIconOnly
+                  variant="ghost"
+                  size="sm"
+                  isDisabled={!canRedo()}
+                  onPress={redo}
+                  aria-label="Redo"
+                >
+                  <ArrowRotateRight width={16} height={16} />
+                </Button>
+              </Tooltip.Trigger>
+              <Tooltip.Content>
+                <p className="text-xs">Redo (⌘⇧Z)</p>
+              </Tooltip.Content>
+            </Tooltip>
+            <Divider />
+          </div>
 
-          <Divider />
+          {/* Scrollable middle section */}
+          <div className="overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden md:overflow-visible">
+            <div className="flex w-max items-center gap-2 px-1 md:w-auto md:px-0">
 
           {/* Change Icon */}
           <Tooltip>
@@ -192,9 +198,33 @@ export function Dock() {
             />
           </DockPopover>
 
-          <Divider />
+          <div className="hidden md:contents">
+            <Divider />
+            <ExportMenu />
+          </div>
+            </div>
+          </div>
 
-          <ExportMenu />
+          {/* Redo — right anchor (mobile only) */}
+          <div className="md:hidden">
+            <Tooltip>
+              <Tooltip.Trigger tabIndex={-1}>
+                <Button
+                  isIconOnly
+                  variant="ghost"
+                  size="sm"
+                  isDisabled={!canRedo()}
+                  onPress={redo}
+                  aria-label="Redo"
+                >
+                  <ArrowRotateRight width={16} height={16} />
+                </Button>
+              </Tooltip.Trigger>
+              <Tooltip.Content>
+                <p className="text-xs">Redo</p>
+              </Tooltip.Content>
+            </Tooltip>
+          </div>
         </motion.div>
       </div>
     </div>
