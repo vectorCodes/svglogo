@@ -4,6 +4,7 @@ import { LogoGithub } from "@gravity-ui/icons";
 import { Button, Modal, Tooltip } from "@heroui/react";
 import { Icon } from "@iconify/react";
 import { motion, type Variants } from "framer-motion";
+import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 
@@ -58,6 +59,19 @@ function FABs() {
       className="pointer-events-auto absolute bottom-4 left-4 z-20 flex flex-col items-start gap-2"
     >
       <motion.div variants={itemVariants}>
+        <motion.div variants={itemVariants}>
+          <Tooltip delay={300}> 
+            <Tooltip.Trigger>
+              <Link href="https://webbin.dev?ref=svglogo.dev" target="_blank" rel="noreferrer">
+                <Image src="https://storage.webbin.dev/images/webbin.png" alt="Webbin" width={40} height={40} className="mb-4 rounded-xl dark:border border-2" />
+              </Link>
+            </Tooltip.Trigger>
+            <Tooltip.Content placement="left">
+              <p>Discover the best AI web designs.</p>
+            </Tooltip.Content>
+          </Tooltip>
+        </motion.div>
+
         <Tooltip delay={0}>
           <Link href={FEEDBACK_URL} target="_blank" rel="noreferrer">
             <Button variant="ghost" isIconOnly>
