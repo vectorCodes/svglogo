@@ -7,7 +7,7 @@ export const CHANGELOG: ChangelogEntry[] = [
   {
     date: "Mar 17, 2026",
     changes: [
-      "Added Skill Icons, VS Code, Tabler, and Material Design icon sets",
+      "Added Tabler and Material Design icon sets",
       "Randomize now picks from all icon sets randomly",
       "Added global icon search across all sets",
       "Added icon rotation control",

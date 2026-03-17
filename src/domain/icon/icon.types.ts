@@ -6,8 +6,6 @@ export const ICON_SETS = [
   { id: "ph", label: "Phosphor" },
   { id: "ri", label: "Remix Icons" },
   { id: "ion", label: "Ionicons" },
-  { id: "skill-icons", label: "Skill Icons" },
-  { id: "vscode-icons", label: "VS Code" },
   { id: "material-symbols", label: "Material Design" },
 ] as const;
 
