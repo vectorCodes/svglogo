@@ -5,6 +5,12 @@ export interface ChangelogEntry {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    date: "Mar 18, 2026",
+    changes: [
+      "Smarter randomize",
+    ],
+  },
+  {
     date: "Mar 17, 2026",
     changes: [
       "Added Advanced Export option",

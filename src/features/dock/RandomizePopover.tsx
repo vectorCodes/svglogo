@@ -8,17 +8,20 @@ import { trackEvent } from "#/lib/analytics";
 export function RandomizePopover() {
   const [diceRotation, setDiceRotation] = useState(0);
   const [isOpen, setIsOpen] = useState(false);
+  const [custom, setCustom] = useState(false);
   const [randomizeIcon, setRandomizeIcon] = useState(true);
   const [randomizeBackground, setRandomizeBackground] = useState(true);
 
   const runRandomize = () => {
-    if (!randomizeIcon && !randomizeBackground) return;
     setDiceRotation((r) => r + 360);
-    void randomizeLogo({
-      icon: randomizeIcon,
-      background: randomizeBackground,
-    });
-    trackEvent("randomize logo", { icon: randomizeIcon, background: randomizeBackground });
+    if (!custom) {
+      void randomizeLogo({ smart: true });
+      trackEvent("randomize logo", { mode: "smart" });
+    } else {
+      if (!randomizeIcon && !randomizeBackground) return;
+      void randomizeLogo({ icon: randomizeIcon, background: randomizeBackground });
+      trackEvent("randomize logo", { mode: "custom", icon: randomizeIcon, background: randomizeBackground });
+    }
   };
 
   return (
@@ -55,32 +58,45 @@ export function RandomizePopover() {
 
         <Popover.Content placement="top">
           <Popover.Dialog>
-            <div className="flex w-52 flex-col gap-4">
+            <div className="flex w-56 flex-col gap-4">
               <div className="flex items-center justify-between">
-                <Label className="text-sm text-muted">Icon</Label>
-                <Switch isSelected={randomizeIcon} onChange={setRandomizeIcon}>
+                <div>
+                  <Label className="text-sm">Custom</Label>
+                  <p className="text-xs text-muted">Pick what to randomize</p>
+                </div>
+                <Switch isSelected={custom} onChange={setCustom}>
                   <Switch.Control>
                     <Switch.Thumb />
                   </Switch.Control>
                 </Switch>
               </div>
 
-              <div className="flex items-center justify-between">
-                <Label className="text-sm text-muted">Background</Label>
-                <Switch
-                  isSelected={randomizeBackground}
-                  onChange={setRandomizeBackground}
-                >
-                  <Switch.Control>
-                    <Switch.Thumb />
-                  </Switch.Control>
-                </Switch>
-              </div>
+              {custom && (
+                <>
+                  <div className="h-px bg-border" />
+                  <div className="flex items-center justify-between">
+                    <Label className="text-sm text-muted">Icon</Label>
+                    <Switch isSelected={randomizeIcon} onChange={setRandomizeIcon}>
+                      <Switch.Control>
+                        <Switch.Thumb />
+                      </Switch.Control>
+                    </Switch>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <Label className="text-sm text-muted">Background</Label>
+                    <Switch isSelected={randomizeBackground} onChange={setRandomizeBackground}>
+                      <Switch.Control>
+                        <Switch.Thumb />
+                      </Switch.Control>
+                    </Switch>
+                  </div>
+                </>
+              )}
 
               <Button
                 size="sm"
                 onPress={runRandomize}
-                isDisabled={!randomizeIcon && !randomizeBackground}
+                isDisabled={custom && !randomizeIcon && !randomizeBackground}
                 className="w-full"
               >
                 Randomize

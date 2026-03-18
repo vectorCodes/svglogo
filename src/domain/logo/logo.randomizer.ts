@@ -1,4 +1,26 @@
+import niceColorPalettes from "nice-color-palettes";
 import type { Background } from "./logo.types";
+
+// Border radii that always look intentional and clean
+const SAFE_BORDER_RADII = [16, 24, 32, 48, 64, 96, 112, 128, 200, 256];
+const SAFE_ICON_SIZES = [48, 52, 56, 60, 64];
+
+export function getSmartLogoVisual(
+  iconList: string[],
+  fallbackIconName = "lucide:heart",
+) {
+  const background = randomBackground();
+  return {
+    iconName: iconList.length > 0 ? randomFrom(iconList) : fallbackIconName,
+    iconColor: pickContrastingIconColor(background),
+    iconBorderWidth: 0,
+    iconSize: randomFrom(SAFE_ICON_SIZES),
+    iconRotation: 0,
+    borderRadius: randomFrom(SAFE_BORDER_RADII),
+    borderWidth: 0,
+    background,
+  };
+}
 
 export function getRandomLogoVisual(
   iconList: string[],
@@ -12,33 +34,64 @@ export function getRandomLogoVisual(
   };
 }
 
-function randomBackground(): Background {
-  const tonalBand = Math.random() < 0.5 ? "dark" : "light";
-  const baseHue = randomInt(0, 359);
+// Tweak these to change the feel of smart randomization
+const SOLID_CHANCE = 0.3; // probability of solid vs gradient
+const DARK_CHANCE = 0.6;  // probability of dark tones vs light
 
-  if (Math.random() < 0.45) {
-    const solidLightness =
-      tonalBand === "dark" ? randomInt(20, 38) : randomInt(62, 82);
-    return {
-      type: "solid",
-      color: hslToHex(baseHue, randomInt(62, 92), solidLightness),
-    };
+function randomBeautifulHue(): number {
+  // Avoid 70–160° (yellow-green → green) — almost always looks bad in gradients
+  // Sample from [0–69] ∪ [161–359], map linearly
+  const n = randomInt(0, 268); // 70 + 199 - 1
+  return n < 70 ? n : n + 91;
+}
+
+function randomBackground(): Background {
+  // Solid: pick a curated color from nice-color-palettes
+  if (Math.random() < SOLID_CHANCE) {
+    const palette = randomFrom(niceColorPalettes as string[][]);
+    return { type: "solid", color: randomFrom(palette) };
   }
 
-  const hueOffset = randomInt(24, 140) * (Math.random() < 0.5 ? -1 : 1);
-  const hueB = normalizeHue(baseHue + hueOffset);
-  const satA = randomInt(56, 90);
-  const satB = randomInt(56, 90);
-  const lightA = tonalBand === "dark" ? randomInt(22, 42) : randomInt(58, 80);
-  const lightB = tonalBand === "dark" ? randomInt(18, 40) : randomInt(54, 78);
+  const isDark = Math.random() < DARK_CHANCE;
+  const baseHue = randomBeautifulHue();
+  // Consistent saturation per gradient looks more intentional than per-stop variation
+  const sat = randomInt(62, 90);
+  const roll = Math.random();
+
+  let hues: number[];
+  if (roll < 0.45) {
+    // Analogous 2-stop — most polished, always works
+    hues = [baseHue, normalizeHue(baseHue + randomInt(20, 45))];
+  } else if (roll < 0.7) {
+    // Analogous 3-stop — rich, smooth
+    const step = randomInt(18, 38);
+    hues = [baseHue, normalizeHue(baseHue + step), normalizeHue(baseHue + step * 2)];
+  } else if (roll < 0.88) {
+    // Complementary — dramatic contrast
+    hues = [baseHue, normalizeHue(baseHue + 180 + randomInt(-15, 15))];
+  } else {
+    // Split-complementary — interesting without being jarring
+    hues = [
+      baseHue,
+      normalizeHue(baseHue + 150 + randomInt(-10, 10)),
+      normalizeHue(baseHue + 210 + randomInt(-10, 10)),
+    ];
+  }
+
+  // Vary lightness between stops so the gradient is clearly visible
+  const baseLight = isDark ? randomInt(25, 42) : randomInt(54, 70);
+  const spread = randomInt(8, 16);
+  const lights = hues.map((_, i) =>
+    Math.min(90, Math.max(10, baseLight + (i % 2 === 0 ? -spread : spread))),
+  );
 
   return {
     type: "gradient",
-    direction: randomInt(0, 359),
-    stops: [
-      { color: hslToHex(baseHue, satA, lightA), position: randomInt(0, 24) },
-      { color: hslToHex(hueB, satB, lightB), position: randomInt(76, 100) },
-    ],
+    direction: randomInt(90, 225),
+    stops: hues.map((h, i) => ({
+      color: hslToHex(h, sat + randomInt(-4, 4), lights[i]),
+      position: Math.round((100 * i) / (hues.length - 1)),
+    })),
   };
 }
 
@@ -49,8 +102,7 @@ function pickContrastingIconColor(background: Background): string {
       background.type === "solid"
         ? contrastRatio(candidate, background.color)
         : Math.min(
-            contrastRatio(candidate, background.stops[0].color),
-            contrastRatio(candidate, background.stops[1].color),
+            ...background.stops.map((s) => contrastRatio(candidate, s.color)),
           );
     return { candidate, minContrast };
   });

@@ -1,5 +1,5 @@
 import { ICON_SETS } from "#/domain/icon/icon.types";
-import { getRandomLogoVisual } from "#/domain/logo/logo.randomizer";
+import { getRandomLogoVisual, getSmartLogoVisual } from "#/domain/logo/logo.randomizer";
 import { fetchCollection } from "#/infra/iconify/iconify-client";
 import { useLogoStore } from "#/store/logo-store";
 import { updateLogo } from "./update-logo";
@@ -19,17 +19,33 @@ async function fetchAllIconsForPrefix(prefix: string): Promise<string[]> {
   return icons;
 }
 
-export async function randomizeLogo(options: {
-  icon: boolean;
-  background: boolean;
-}) {
+export async function randomizeLogo(
+  options:
+    | { smart: true }
+    | { smart?: false; icon: boolean; background: boolean },
+) {
+  const { present } = useLogoStore.getState();
+  const prefix = randomPrefix();
+  const icons = await fetchAllIconsForPrefix(prefix);
+
+  if (options.smart) {
+    const next = getSmartLogoVisual(icons, present.iconName);
+    updateLogo((d) => {
+      d.iconName = next.iconName;
+      d.iconColor = next.iconColor;
+      d.iconBorderWidth = next.iconBorderWidth;
+      d.iconSize = next.iconSize;
+      d.iconRotation = next.iconRotation;
+      d.borderRadius = next.borderRadius;
+      d.borderWidth = next.borderWidth;
+      d.background = next.background;
+    });
+    return;
+  }
+
   if (!options.icon && !options.background) return;
 
-  const { present } = useLogoStore.getState();
-  const prefix = options.icon ? randomPrefix() : present.iconName.split(":")[0];
-  const icons = await fetchAllIconsForPrefix(prefix);
   const next = getRandomLogoVisual(icons, present.iconName);
-
   updateLogo((d) => {
     d.iconBorderWidth = 0;
     if (options.icon) d.iconName = next.iconName;
