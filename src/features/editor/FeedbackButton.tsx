@@ -8,14 +8,14 @@ declare global {
   interface Window {
     turnstile?: {
       render: (container: HTMLElement, opts: object) => string;
-      execute: (widgetId: string) => void;
+      execute: (widgetId: string, opts?: object) => void;
       reset: (widgetId: string) => void;
       remove: (widgetId: string) => void;
     };
   }
 }
 
-const TURNSTILE_SITE_KEY = import.meta.env.VITE_TURNSTILE_SITE_KEY as string | undefined;
+const TURNSTILE_SITE_KEY = "0x4AAAAAACsp6BY1heuKsB5N";
 
 type Status = "idle" | "loading" | "success" | "error";
 
@@ -26,23 +26,20 @@ export function FeedbackButton() {
   const widgetRef = useRef<string | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
-  // Render hidden Turnstile widget when popover opens
   useEffect(() => {
-    if (!isOpen || !TURNSTILE_SITE_KEY) return;
+    if (!isOpen) return;
 
     const tryRender = () => {
-      if (!containerRef.current || !window.turnstile) return;
-
-      if (widgetRef.current) return; // already rendered
+      if (!containerRef.current || !window.turnstile || widgetRef.current) return;
       widgetRef.current = window.turnstile.render(containerRef.current, {
         sitekey: TURNSTILE_SITE_KEY,
-        execution: "execute", // manual trigger
+        execution: "execute",
         appearance: "interaction-only",
-        callback: () => {}, // token handled in submit via promise
+        callback: () => {}, // overridden per-submit
+        "error-callback": () => {},
       });
     };
 
-    // Script may still be loading
     if (window.turnstile) {
       tryRender();
     } else {
@@ -55,19 +52,26 @@ export function FeedbackButton() {
 
   const getToken = (): Promise<string> =>
     new Promise((resolve, reject) => {
-      if (!TURNSTILE_SITE_KEY) return resolve(""); // dev: skip
-      if (!window.turnstile || !widgetRef.current) return reject(new Error("Turnstile not ready"));
-
-      const container = containerRef.current!;
-      // Re-render with a fresh callback to capture the token
-      window.turnstile.remove(widgetRef.current);
-      widgetRef.current = window.turnstile.render(container, {
+      if (!window.turnstile || !widgetRef.current) {
+        return reject(new Error("Turnstile not ready"));
+      }
+      const id = widgetRef.current;
+      window.turnstile.reset(id);
+      // Re-render fresh widget with this submit's callbacks
+      window.turnstile.remove(id);
+      widgetRef.current = null;
+      widgetRef.current = window.turnstile.render(containerRef.current!, {
         sitekey: TURNSTILE_SITE_KEY,
         execution: "execute",
         appearance: "interaction-only",
-        callback: (token: string) => resolve(token),
-        "error-callback": () => reject(new Error("Turnstile failed")),
+        callback: (t: string) => resolve(t),
+        "error-callback": () => reject(new Error("Turnstile error")),
+        "expired-callback": () => reject(new Error("Turnstile expired")),
       });
+      const tid = setTimeout(() => reject(new Error("Turnstile timeout")), 15000);
+      // Wrap resolve/reject to clear timeout
+      const origResolve = resolve;
+      resolve = (t) => { clearTimeout(tid); origResolve(t); };
       window.turnstile.execute(widgetRef.current);
     });
 
@@ -129,8 +133,7 @@ export function FeedbackButton() {
               className="resize-none"
               variant="secondary"
             />
-            {/* Turnstile container — visually hidden but not display:none */}
-            <div ref={containerRef} className="absolute overflow-hidden w-0 h-0" />
+            <div ref={containerRef} className="sr-only" />
             <Button
               size="sm"
               onPress={() => void submit()}
