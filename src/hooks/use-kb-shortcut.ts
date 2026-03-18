@@ -18,6 +18,10 @@ export function useKbShortcut(
     const mods = mod ? (Array.isArray(mod) ? mod : [mod]) : [];
 
     const onKey = (e: KeyboardEvent) => {
+      const tag = (e.target as HTMLElement)?.tagName;
+      const editable = (e.target as HTMLElement)?.isContentEditable;
+      if (tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT" || editable) return;
+
       if (e.key.toLowerCase() !== key.toLowerCase()) return;
 
       const needCmd = mods.includes("cmd");
