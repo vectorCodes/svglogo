@@ -1,5 +1,4 @@
 import { createServerFn } from "@tanstack/react-start";
-import { nanoid } from "nanoid";
 import { env } from "cloudflare:workers";
 import { getRequestIP } from "@tanstack/react-start/server";
 
@@ -11,19 +10,18 @@ export const createFeedbackFn = createServerFn({ method: "POST" })
   .inputValidator((data: unknown) => data as { message: string; token: string })
   .handler(async ({ data }) => {
     const cfEnv = env as {
-      FEEDBACK_KV?: KVNamespace;
       FEEDBACK_RL?: RateLimiter;
       TURNSTILE_SECRET?: string;
+      TELEGRAM_BOT_TOKEN?: string;
+      TELEGRAM_CHAT_ID?: string;
     };
 
     // Turnstile verification
-    const turnstileSecret = cfEnv.TURNSTILE_SECRET;
-
-    if (turnstileSecret) {
+    if (cfEnv.TURNSTILE_SECRET) {
       const res = await fetch("https://challenges.cloudflare.com/turnstile/v0/siteverify", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ secret: turnstileSecret, response: data.token }),
+        body: JSON.stringify({ secret: cfEnv.TURNSTILE_SECRET, response: data.token }),
       });
       const result = await res.json<{ success: boolean; "error-codes"?: string[] }>();
       if (!result.success) throw new Error(`Turnstile failed: ${result["error-codes"]?.join(", ")}`);
@@ -31,24 +29,27 @@ export const createFeedbackFn = createServerFn({ method: "POST" })
 
     // Rate limiting
     const ip = getRequestIP() ?? "unknown";
-    const rl = cfEnv.FEEDBACK_RL;
-    if (rl) {
-      const { success } = await rl.limit({ key: ip });
+    if (cfEnv.FEEDBACK_RL) {
+      const { success } = await cfEnv.FEEDBACK_RL.limit({ key: ip });
       if (!success) throw new Error("Too many requests");
     }
 
     const message = String(data.message ?? "").trim().slice(0, 2000);
     if (!message) throw new Error("Empty feedback");
 
-    const kv = cfEnv.FEEDBACK_KV;
-    if (!kv) throw new Error("FEEDBACK_KV binding is not configured");
+    // Send via Telegram
+    const botToken = cfEnv.TELEGRAM_BOT_TOKEN;
+    const chatId = cfEnv.TELEGRAM_CHAT_ID;
+    if (!botToken || !chatId) throw new Error("Telegram not configured");
 
-    const id = nanoid(10);
-    await kv.put(
-      id,
-      JSON.stringify({ message, createdAt: new Date().toISOString() }),
-      { expirationTtl: 60 * 60 * 24 * 365 },
-    );
+    const text = `💬 *New Feedback*\n\n${message}`;
+    const res = await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ chat_id: chatId, text, parse_mode: "Markdown" }),
+    });
+
+    if (!res.ok) throw new Error("Failed to send Telegram message");
 
     return { ok: true };
   });

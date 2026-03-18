@@ -12,14 +12,14 @@
 	"vars": {
 		"VITE_TURNSTILE_SITE_KEY": "0x4AAAAAACsp6BY1heuKsB5N"
 	},
+	// Secrets (set via `wrangler secret put`):
+	// - TURNSTILE_SECRET
+	// - TELEGRAM_BOT_TOKEN
+	// - TELEGRAM_CHAT_ID
 	"kv_namespaces": [
 		{
 			"binding": "SHARE_KV",
 			"id": "656eab18a90043e1b5de203c85502d99"
-		},
-		{
-			"binding": "FEEDBACK_KV",
-			"id": "5e33161f465f44eb809bc425baad8330"
 		},
 	],
 	"env": {
