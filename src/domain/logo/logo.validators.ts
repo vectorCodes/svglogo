@@ -74,6 +74,8 @@ export function sanitizeLogoState(value: unknown): LogoState {
     ),
     iconSize: clamp(v.iconSize, 10, 90, DEFAULT_LOGO.iconSize),
     iconRotation: clamp(v.iconRotation, 0, 360, DEFAULT_LOGO.iconRotation),
+    iconOffsetX: clamp(v.iconOffsetX, -50, 50, 0),
+    iconOffsetY: clamp(v.iconOffsetY, -50, 50, 0),
     background: sanitizeBackground(v.background),
     borderRadius: clamp(v.borderRadius, 0, 256, DEFAULT_LOGO.borderRadius),
     borderWidth: clamp(v.borderWidth, 0, 24, DEFAULT_LOGO.borderWidth),
@@ -93,6 +95,8 @@ export function areLogosEqual(a: LogoState, b: LogoState) {
   if (a.iconBorderWidth !== b.iconBorderWidth) return false;
   if (a.iconSize !== b.iconSize) return false;
   if (a.iconRotation !== b.iconRotation) return false;
+  if (a.iconOffsetX !== b.iconOffsetX) return false;
+  if (a.iconOffsetY !== b.iconOffsetY) return false;
   if (a.borderRadius !== b.borderRadius) return false;
   if (a.borderWidth !== b.borderWidth) return false;
   if (a.borderColor !== b.borderColor) return false;

@@ -22,7 +22,7 @@ import { SliderControl } from "./SliderControl";
 
 export function Dock() {
   const { set, undo, redo, canUndo, canRedo } = useLogoActions();
-  const { iconColor, iconBorderColor, iconBorderWidth, iconSize, iconRotation, textMode, logoText, fontFamily } =
+  const { iconColor, iconBorderColor, iconBorderWidth, iconSize, iconRotation, iconOffsetX, iconOffsetY, textMode, logoText, fontFamily } =
     useLogoState();
   const openIconPicker = useLogoStore((s) => s.openIconPicker);
 
@@ -238,6 +238,30 @@ export function Dock() {
                     onChange={(v) =>
                       set((d) => {
                         d.iconSize = v;
+                      })
+                    }
+                  />
+                  <SliderControl
+                    label="X"
+                    value={iconOffsetX}
+                    min={-50}
+                    max={50}
+                    unit="%"
+                    onChange={(v) =>
+                      set((d) => {
+                        d.iconOffsetX = v;
+                      })
+                    }
+                  />
+                  <SliderControl
+                    label="Y"
+                    value={iconOffsetY}
+                    min={-50}
+                    max={50}
+                    unit="%"
+                    onChange={(v) =>
+                      set((d) => {
+                        d.iconOffsetY = v;
                       })
                     }
                   />

@@ -15,6 +15,8 @@ export interface LogoState {
   iconBorderWidth: number; // 0–24 px
   iconSize: number; // 10–90, percent of canvas
   iconRotation: number; // 0–360 degrees
+  iconOffsetX: number; // -50–50, percent of canvas
+  iconOffsetY: number; // -50–50, percent of canvas
   background: Background;
   borderRadius: number; // 0–256 px
   borderWidth: number; // 0–24 px
@@ -31,6 +33,8 @@ export const DEFAULT_LOGO: LogoState = {
   iconBorderWidth: 10,
   iconSize: 60,
   iconRotation: 0,
+  iconOffsetX: 0,
+  iconOffsetY: 0,
   background: {
     type: "gradient",
     direction: 135,
