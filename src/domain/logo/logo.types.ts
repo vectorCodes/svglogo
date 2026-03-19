@@ -53,6 +53,6 @@ export const DEFAULT_LOGO: LogoState = {
   borderWidth: 0,
   borderColor: "#ffffff",
   textMode: false,
-  logoText: "",
+  logoText: "SVG",
   fontFamily: "Inter",
 };
