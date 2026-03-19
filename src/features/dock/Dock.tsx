@@ -24,7 +24,7 @@ export function Dock() {
   const openIconPicker = useLogoStore((s) => s.openIconPicker);
 
   return (
-    <div className="fixed bottom-3 left-1/2 z-50 -translate-x-1/2 max-w-[calc(100vw-1.5rem)] md:bottom-6 md:max-w-none">
+    <div className="fixed bottom-3 left-1/2 z-50 -translate-x-1/2 max-w-[calc(100vw-1.5rem)] md:bottom-4 md:max-w-none">
       <div className="relative">
         <div className="hidden md:block absolute right-full top-1/2 mr-2 -translate-y-1/2">
           <RandomizePopover />
