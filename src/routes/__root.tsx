@@ -54,6 +54,12 @@ function RootDocument({ children }: { children: React.ReactNode }) {
     <html lang="en" suppressHydrationWarning>
       <head>
         <HeadContent />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Bebas+Neue&family=Comfortaa:wght@700&family=Crimson+Pro:wght@700&family=DM+Sans:wght@700&family=Fira+Code:wght@700&family=Fraunces:wght@700&family=Fredoka:wght@600&family=JetBrains+Mono:wght@700&family=Lora:wght@700&family=Manrope:wght@700&family=Merriweather:wght@700&family=Montserrat:wght@800&family=Outfit:wght@700&family=Pacifico&family=Playfair+Display:wght@700&family=Plus+Jakarta+Sans:wght@700&family=Poppins:wght@700&family=Raleway:wght@700&family=Righteous&family=Sora:wght@700&family=Space+Grotesk:wght@700&family=Space+Mono:wght@700&family=Unbounded:wght@700&display=swap"
+          rel="stylesheet"
+        />
         <script
           type="application/ld+json"
           // biome-ignore lint/security/noDangerouslySetInnerHtml: structured data

@@ -19,6 +19,9 @@ export interface LogoState {
   borderRadius: number; // 0–256 px
   borderWidth: number; // 0–24 px
   borderColor: string;
+  textMode: boolean;
+  logoText: string;
+  fontFamily: string;
 }
 
 export const DEFAULT_LOGO: LogoState = {
@@ -45,4 +48,7 @@ export const DEFAULT_LOGO: LogoState = {
   borderRadius: 112,
   borderWidth: 0,
   borderColor: "#ffffff",
+  textMode: false,
+  logoText: "",
+  fontFamily: "Inter",
 };

@@ -1,4 +1,5 @@
 import { getIconOutlineOffsets } from "#/domain/icon/icon.outline";
+import { getFontByFamily } from "./logo.fonts";
 import type { Background, LogoState } from "./logo.types";
 
 export function buildBackgroundStyle(bg: Background): string {
@@ -163,31 +164,56 @@ export function buildCanvasSvgSync(
 			? `stroke="${borderColor}" stroke-width="${safeBorderWidth * 2}"`
 			: "";
 
-	const inlinedBorderIcons =
-		borderSvgContent && iconOutlineOffsets.length > 0
-			? iconOutlineOffsets.map((offset, index) =>
-					inlineSvgElement(
-						borderSvgContent,
-						iconOffset + offset.x,
-						iconOffset + offset.y,
-						iconPx,
-						`border-${index}`,
-					),
+	let iconDefs = "";
+	let clippedBorderIcon = "";
+	let clippedIcon = "";
+
+	if (state.textMode && state.logoText) {
+		const font = getFontByFamily(state.fontFamily);
+		const fontWeight = font?.weight ?? 700;
+		const fontSize = Math.round(iconPx * 0.65);
+		const escaped = state.logoText
+			.replace(/&/g, "&amp;")
+			.replace(/</g, "&lt;")
+			.replace(/>/g, "&gt;");
+
+		if (safeIconBorderWidth > 0 && iconOutlineOffsets.length > 0) {
+			clippedBorderIcon = iconOutlineOffsets
+				.map(
+					(offset) =>
+						`<text x="${size / 2 + offset.x}" y="${size / 2 + offset.y}" text-anchor="middle" dominant-baseline="central" font-family="'${state.fontFamily}', sans-serif" font-weight="${fontWeight}" font-size="${fontSize}" fill="${state.iconBorderColor}">${escaped}</text>`,
 				)
-			: [];
-	const inlinedIcon = iconSvgContent
-		? inlineSvgElement(iconSvgContent, iconOffset, iconOffset, iconPx, "icon")
-		: { defs: "", content: "" };
-	const iconDefs = [
-		...inlinedBorderIcons.map((item) => item.defs),
-		inlinedIcon.defs,
-	]
-		.filter(Boolean)
-		.join("\n    ");
-	const clippedBorderIcon = inlinedBorderIcons
-		.map((item) => item.content)
-		.join("");
-	const clippedIcon = inlinedIcon.content;
+				.join("");
+		}
+
+		clippedIcon = `<text x="${size / 2}" y="${size / 2}" text-anchor="middle" dominant-baseline="central" font-family="'${state.fontFamily}', sans-serif" font-weight="${fontWeight}" font-size="${fontSize}" fill="${state.iconColor}">${escaped}</text>`;
+	} else {
+		const inlinedBorderIcons =
+			borderSvgContent && iconOutlineOffsets.length > 0
+				? iconOutlineOffsets.map((offset, index) =>
+						inlineSvgElement(
+							borderSvgContent,
+							iconOffset + offset.x,
+							iconOffset + offset.y,
+							iconPx,
+							`border-${index}`,
+						),
+					)
+				: [];
+		const inlinedIcon = iconSvgContent
+			? inlineSvgElement(iconSvgContent, iconOffset, iconOffset, iconPx, "icon")
+			: { defs: "", content: "" };
+		iconDefs = [
+			...inlinedBorderIcons.map((item) => item.defs),
+			inlinedIcon.defs,
+		]
+			.filter(Boolean)
+			.join("\n    ");
+		clippedBorderIcon = inlinedBorderIcons
+			.map((item) => item.content)
+			.join("");
+		clippedIcon = inlinedIcon.content;
+	}
 	const defs = [
 		bgDef,
 		`<clipPath id="canvas-clip">

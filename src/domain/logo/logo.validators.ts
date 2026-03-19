@@ -78,6 +78,11 @@ export function sanitizeLogoState(value: unknown): LogoState {
     borderRadius: clamp(v.borderRadius, 0, 256, DEFAULT_LOGO.borderRadius),
     borderWidth: clamp(v.borderWidth, 0, 24, DEFAULT_LOGO.borderWidth),
     borderColor: safeColor(v.borderColor, DEFAULT_LOGO.borderColor),
+    textMode: typeof v.textMode === "boolean" ? v.textMode : false,
+    logoText: typeof v.logoText === "string" ? v.logoText : "",
+    fontFamily: typeof v.fontFamily === "string" && v.fontFamily.length > 0
+      ? v.fontFamily
+      : DEFAULT_LOGO.fontFamily,
   };
 }
 
@@ -91,6 +96,9 @@ export function areLogosEqual(a: LogoState, b: LogoState) {
   if (a.borderRadius !== b.borderRadius) return false;
   if (a.borderWidth !== b.borderWidth) return false;
   if (a.borderColor !== b.borderColor) return false;
+  if (a.textMode !== b.textMode) return false;
+  if (a.logoText !== b.logoText) return false;
+  if (a.fontFamily !== b.fontFamily) return false;
 
   if (a.background.type !== b.background.type) return false;
   if (a.background.type === "solid" && b.background.type === "solid") {

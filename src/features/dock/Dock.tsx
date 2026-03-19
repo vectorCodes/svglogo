@@ -4,9 +4,12 @@ import ArrowsExpand from "@gravity-ui/icons/ArrowsExpand";
 import BucketPaint from "@gravity-ui/icons/BucketPaint";
 import FaceSmile from "@gravity-ui/icons/FaceSmile";
 import Frame from "@gravity-ui/icons/Frame";
-import { Button, Label, Popover, Tooltip } from "@heroui/react";
+import { Button, Input, Label, ListBox, Popover, Select, TextField, Tooltip } from "@heroui/react";
 import { Icon } from "@iconify/react";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
+import { LOGO_FONTS } from "#/domain/logo/logo.fonts";
+import { updateLogo } from "#/commands/logo/update-logo";
+import { trackEvent } from "#/lib/analytics";
 import { useLogoState, useLogoActions } from "#/queries/logo/use-logo-state";
 import { useLogoStore } from "#/store/logo-store";
 import { BgControl } from "./BgControl";
@@ -19,7 +22,7 @@ import { SliderControl } from "./SliderControl";
 
 export function Dock() {
   const { set, undo, redo, canUndo, canRedo } = useLogoActions();
-  const { iconColor, iconBorderColor, iconBorderWidth, iconSize, iconRotation } =
+  const { iconColor, iconBorderColor, iconBorderWidth, iconSize, iconRotation, textMode, logoText, fontFamily } =
     useLogoState();
   const openIconPicker = useLogoStore((s) => s.openIconPicker);
 
@@ -88,23 +91,57 @@ export function Dock() {
           {/* Scrollable middle section */}
           <div className="overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden md:overflow-visible">
             <div className="flex w-max items-center gap-2 px-1 md:w-auto md:px-0">
-              {/* Change Icon */}
-              <Tooltip>
-                <Tooltip.Trigger tabIndex={-1}>
-                  <Button
-                    isIconOnly
-                    variant="ghost"
-                    onPress={openIconPicker}
-                    aria-label="Change icon"
-                    data-tour="icon-button"
-                  >
-                    <FaceSmile width={20} height={20} />
-                  </Button>
-                </Tooltip.Trigger>
-                <Tooltip.Content>
-                  <p className="text-xs">Change Icon</p>
-                </Tooltip.Content>
-              </Tooltip>
+              {/* Change Icon / Edit Text */}
+              <Popover>
+                <Tooltip>
+                  <Tooltip.Trigger tabIndex={-1}>
+                    <Popover.Trigger tabIndex={-1} isDisabled={!textMode}>
+                      <Button
+                        isIconOnly
+                        variant="ghost"
+                        aria-label={textMode ? "Edit text" : "Change icon"}
+                        data-tour="icon-button"
+                        onPress={textMode ? undefined : openIconPicker}
+                        className="overflow-hidden"
+                      >
+                        <AnimatePresence mode="wait" initial={false}>
+                          {textMode ? (
+                            <motion.span
+                              key="type"
+                              initial={{ y: 10, opacity: 0 }}
+                              animate={{ y: 0, opacity: 1 }}
+                              exit={{ y: 10, opacity: 0 }}
+                              transition={{ duration: 0.18 }}
+                            >
+                              <Icon icon="lucide:type" width={20} height={20} />
+                            </motion.span>
+                          ) : (
+                            <motion.span
+                              key="smile"
+                              initial={{ y: -10, opacity: 0 }}
+                              animate={{ y: 0, opacity: 1 }}
+                              exit={{ y: -10, opacity: 0 }}
+                              transition={{ duration: 0.18 }}
+                            >
+                              <FaceSmile width={20} height={20} />
+                            </motion.span>
+                          )}
+                        </AnimatePresence>
+                      </Button>
+                    </Popover.Trigger>
+                  </Tooltip.Trigger>
+                  <Tooltip.Content>
+                    <p className="text-xs">{textMode ? "Edit Text" : "Change Icon"}</p>
+                  </Tooltip.Content>
+                </Tooltip>
+                {textMode && (
+                  <Popover.Content placement="top">
+                    <Popover.Dialog>
+                      <TextEditorPopover logoText={logoText} fontFamily={fontFamily} />
+                    </Popover.Dialog>
+                  </Popover.Content>
+                )}
+              </Popover>
 
               {/* Icon Color */}
               <Tooltip>
@@ -236,6 +273,55 @@ export function Dock() {
           </div>
         </motion.div>
       </div>
+    </div>
+  );
+}
+
+function TextEditorPopover({ logoText, fontFamily }: { logoText: string; fontFamily: string }) {
+  return (
+    <div className="flex w-56 flex-col gap-3">
+      <TextField>
+        <Label className="text-sm text-muted">Logo Text</Label>
+        <Input
+          value={logoText}
+          onChange={(e) => updateLogo((d) => { d.logoText = e.target.value; })}
+          placeholder="Enter text..."
+          variant="secondary"
+          />
+      </TextField>
+      <TextField>
+        <Label className="text-sm text-muted">Font</Label>
+        <Select
+          selectedKey={fontFamily}
+          onSelectionChange={(key) => {
+            updateLogo((d) => { d.fontFamily = key as string; });
+            trackEvent("font changed", { font: key });
+          }}
+          className="w-full"
+          placeholder="Select font"
+          variant="secondary"
+        >
+          <Select.Trigger>
+            <Select.Value />
+            <Select.Indicator />
+          </Select.Trigger>
+          <Select.Popover>
+            <ListBox className="max-h-56 overflow-auto sleek-scroll">
+              {LOGO_FONTS.map((font) => (
+                <ListBox.Item key={font.family} id={font.family} textValue={font.family}>
+                  <span
+                    style={{ fontFamily: `'${font.family}', sans-serif`, fontWeight: font.weight }}
+                    className="text-sm"
+                  >
+                    {font.family}
+                  </span>
+                  <ListBox.ItemIndicator />
+                </ListBox.Item>
+              ))}
+            </ListBox>
+          </Select.Popover>
+        </Select>
+      </TextField>
     </div>
   );
 }

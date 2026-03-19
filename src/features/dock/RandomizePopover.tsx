@@ -4,24 +4,41 @@ import { motion } from "framer-motion";
 import { useState } from "react";
 import { randomizeLogo } from "#/commands/logo/randomize-logo";
 import { trackEvent } from "#/lib/analytics";
+import { useLogoStore } from "#/store/logo-store";
 
 export function RandomizePopover() {
+  const textMode = useLogoStore((s) => s.present.textMode);
   const [diceRotation, setDiceRotation] = useState(0);
   const [isOpen, setIsOpen] = useState(false);
   const [custom, setCustom] = useState(false);
   const [randomizeIcon, setRandomizeIcon] = useState(true);
   const [randomizeIconColor, setRandomizeIconColor] = useState(true);
   const [randomizeBackground, setRandomizeBackground] = useState(true);
+  const [randomizeFont, setRandomizeFont] = useState(true);
+  const [randomizeFontColor, setRandomizeFontColor] = useState(true);
+
+  const nothingSelected = custom && !randomizeBackground && (textMode ? (!randomizeFont && !randomizeFontColor) : (!randomizeIcon && !randomizeIconColor));
 
   const runRandomize = () => {
     setDiceRotation((r) => r + 360);
     if (!custom) {
       void randomizeLogo({ smart: true });
-      trackEvent("randomize logo", { mode: "smart" });
+      trackEvent("randomize logo", { mode: "smart", text_mode: textMode });
     } else {
-      if (!randomizeIcon && !randomizeIconColor && !randomizeBackground) return;
-      void randomizeLogo({ icon: randomizeIcon, iconColor: randomizeIconColor, background: randomizeBackground });
-      trackEvent("randomize logo", { mode: "custom", icon: randomizeIcon, icon_color: randomizeIconColor, background: randomizeBackground });
+      if (nothingSelected) return;
+      void randomizeLogo({
+        icon: !textMode && randomizeIcon,
+        iconColor: textMode ? randomizeFontColor : randomizeIconColor,
+        background: randomizeBackground,
+        font: textMode && randomizeFont,
+      });
+      trackEvent("randomize logo", {
+        mode: "custom",
+        text_mode: textMode,
+        ...(textMode
+          ? { font_style: randomizeFont, font_color: randomizeFontColor, background: randomizeBackground }
+          : { icon: randomizeIcon, icon_color: randomizeIconColor, background: randomizeBackground }),
+      });
     }
   };
 
@@ -75,37 +92,56 @@ export function RandomizePopover() {
               {custom && (
                 <>
                   <div className="h-px bg-border" />
-                  <div className="flex items-center justify-between">
-                    <Label className="text-sm text-muted">Icon</Label>
-                    <Switch isSelected={randomizeIcon} onChange={setRandomizeIcon}>
-                      <Switch.Control>
-                        <Switch.Thumb />
-                      </Switch.Control>
-                    </Switch>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <Label className="text-sm text-muted">Icon Color</Label>
-                    <Switch isSelected={randomizeIconColor} onChange={setRandomizeIconColor}>
-                      <Switch.Control>
-                        <Switch.Thumb />
-                      </Switch.Control>
-                    </Switch>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <Label className="text-sm text-muted">Background Color</Label>
-                    <Switch isSelected={randomizeBackground} onChange={setRandomizeBackground}>
-                      <Switch.Control>
-                        <Switch.Thumb />
-                      </Switch.Control>
-                    </Switch>
-                  </div>
+                  {textMode ? (
+                    <>
+                      <div className="flex items-center justify-between">
+                        <Label className="text-sm text-muted">Font Style</Label>
+                        <Switch isSelected={randomizeFont} onChange={setRandomizeFont}>
+                          <Switch.Control><Switch.Thumb /></Switch.Control>
+                        </Switch>
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <Label className="text-sm text-muted">Font Color</Label>
+                        <Switch isSelected={randomizeFontColor} onChange={setRandomizeFontColor}>
+                          <Switch.Control><Switch.Thumb /></Switch.Control>
+                        </Switch>
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <Label className="text-sm text-muted">Background Color</Label>
+                        <Switch isSelected={randomizeBackground} onChange={setRandomizeBackground}>
+                          <Switch.Control><Switch.Thumb /></Switch.Control>
+                        </Switch>
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      <div className="flex items-center justify-between">
+                        <Label className="text-sm text-muted">Icon</Label>
+                        <Switch isSelected={randomizeIcon} onChange={setRandomizeIcon}>
+                          <Switch.Control><Switch.Thumb /></Switch.Control>
+                        </Switch>
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <Label className="text-sm text-muted">Icon Color</Label>
+                        <Switch isSelected={randomizeIconColor} onChange={setRandomizeIconColor}>
+                          <Switch.Control><Switch.Thumb /></Switch.Control>
+                        </Switch>
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <Label className="text-sm text-muted">Background Color</Label>
+                        <Switch isSelected={randomizeBackground} onChange={setRandomizeBackground}>
+                          <Switch.Control><Switch.Thumb /></Switch.Control>
+                        </Switch>
+                      </div>
+                    </>
+                  )}
                 </>
               )}
 
               <Button
                 size="sm"
                 onPress={runRandomize}
-                isDisabled={custom && !randomizeIcon && !randomizeIconColor && !randomizeBackground}
+                isDisabled={nothingSelected}
                 className="w-full"
               >
                 Randomize

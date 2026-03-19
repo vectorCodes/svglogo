@@ -13,6 +13,7 @@ import { useKbShortcut } from "#/hooks/use-kb-shortcut";
 import { GridBackground } from "./GridBackground";
 import { LogoCanvas } from "./LogoCanvas";
 import { Dock } from "#/features/dock/Dock";
+import { TextModeToggle } from "#/features/dock/TextModeToggle";
 import { IconPickerModal } from "#/features/icon-picker/IconPickerModal";
 
 export function EditorPage() {
@@ -108,6 +109,7 @@ export function EditorPage() {
       >
         <LogoCanvas />
       </motion.div>
+      <TextModeToggle />
       <Dock />
       <IconPickerModal />
     </div>

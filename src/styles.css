@@ -110,6 +110,28 @@ input[type="color"] {
   cursor: pointer;
 }
 
+.sleek-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: var(--scrollbar) transparent;
+}
+
+.sleek-scroll::-webkit-scrollbar {
+  width: 4px;
+}
+
+.sleek-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.sleek-scroll::-webkit-scrollbar-thumb {
+  background: var(--scrollbar);
+  border-radius: 9999px;
+}
+
+.sleek-scroll::-webkit-scrollbar-thumb:hover {
+  background: var(--muted);
+}
+
 @keyframes ph-border-glow {
   0% { box-shadow: 0 0 0 0 transparent; }
   20% { box-shadow: 0 0 0 1px rgba(59, 130, 246, 0.6), 0 0 12px rgba(59, 130, 246, 0.15); }
