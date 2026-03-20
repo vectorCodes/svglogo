@@ -74,9 +74,6 @@ export function AppShell({
           <motion.div variants={itemVariants}>
             <CollectionsButton />
           </motion.div>
-          <motion.div variants={itemVariants}>
-            <CreatorPlanButton />
-          </motion.div>
         </motion.div>
       </div>
       <OnboardingTour />

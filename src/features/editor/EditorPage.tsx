@@ -12,6 +12,7 @@ import { useLogoStore } from "#/store/logo-store";
 import { useKbShortcut } from "#/hooks/use-kb-shortcut";
 import { GridBackground } from "./GridBackground";
 import { LogoCanvas } from "./LogoCanvas";
+import { CreatorPlanCard } from "./CreatorPlanCard";
 import { Dock } from "#/features/dock/Dock";
 import { TextModeToggle } from "#/features/dock/TextModeToggle";
 import { IconPickerModal } from "#/features/icon-picker/IconPickerModal";
@@ -101,6 +102,7 @@ export function EditorPage() {
   return (
     <div className="relative flex h-dvh w-screen items-center justify-center overflow-hidden pb-16 md:pb-0">
       <GridBackground />
+      <CreatorPlanCard />
       <motion.div
         initial={{ opacity: 0, scale: 0.92, y: 16 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
