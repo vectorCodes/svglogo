@@ -18,7 +18,7 @@ export const CREATOR_SEO = {
     'Brand kits, social media assets, and logo variants built for agencies, indie studios, and serious makers. One-time purchase — early access at $40.',
   keywords:
     'logo brand kit, social media assets, logo variants, brand identity tool, logo maker for studios, professional logo creator, agency branding tool, logo export pack',
-  ogImage: `${SITE_URL}/og/banner.png`,
+  ogImage: `${SITE_URL}/og/creator.png`,
   ogImageAlt: 'SVGLogo.dev Creator Plan — Professional branding tools for studios and makers',
   canonical: `${SITE_URL}/creator`,
 } as const
