@@ -3,7 +3,6 @@ import { Button } from "@heroui/react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
 import { LAUNCH_DATE, PRICE_ONE_TIME, PRICE_ONE_TIME_EARLY, EARLY_ACCESS_DISCOUNT } from "#/data/creator-plan";
-import { trackEvent } from "#/lib/analytics";
 import { ArrowRight } from "@gravity-ui/icons";
 
 const LS_KEY = "creator_card_collapsed";
@@ -25,7 +24,6 @@ export function CreatorPlanCard() {
     const next = !collapsed;
     localStorage.setItem(LS_KEY, next ? "1" : "0");
     setCollapsed(next);
-    trackEvent("creator card toggle", { collapsed: next });
   }
 
   return (
@@ -51,6 +49,7 @@ export function CreatorPlanCard() {
           <button
             type="button"
             onClick={toggle}
+            data-umami-event={collapsed ? "creator card expand" : "creator card collapse"}
             className="text-muted/40 transition-colors hover:text-muted shrink-0"
           >
             <motion.div animate={{ rotate: collapsed ? 180 : 0 }} transition={{ duration: 0.3 }}>
@@ -89,15 +88,13 @@ export function CreatorPlanCard() {
                   <span className="text-xs text-muted">one-time</span>
                 </div>
 
-                <a href="/creator"
+                <a
+                  href="/creator"
                   target="_blank"
                   rel="noopener noreferrer"
+                  data-umami-event="creator card cta click"
                 >
-                  <Button
-                    size="sm"
-                    className="w-full text-xs"
-                    onPress={() => trackEvent("creator card cta click")}
-                  >
+                  <Button size="sm" className="w-full text-xs">
                     Get early access <ArrowRight />
                   </Button>
                 </a>
