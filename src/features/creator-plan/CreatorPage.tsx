@@ -87,26 +87,28 @@ function PricingCard() {
           <Icon icon="lucide:calendar" width={10} />
           Launching {LAUNCH_DATE}
         </div>
-        <h1 className="text-3xl md:text-4xl font-bold leading-tight mb-2">
+        <h1 className="text-2xl md:text-4xl font-bold leading-tight mb-2">
           Creator Plan — Early Access
         </h1>
         <p className="text-sm text-muted leading-relaxed max-w-md">
           Social media assets, logo variants, and a full brand kit — everything on top of the free editor.
         </p>
       </div>
-      <div className="flex items-end gap-3">
-        <span className="text-5xl font-bold leading-none tabular-nums">
-          $<AnimatedPrice target={PRICE_MONTHLY_EARLY} />
-        </span>
-        <div className="flex flex-col pb-0.5">
-          <span className="text-muted line-through text-sm">${PRICE_MONTHLY_REGULAR}</span>
-          <span className="text-xs text-muted">per month · early price</span>
+      <div className="flex flex-wrap items-end gap-3">
+        <div className="flex items-end gap-3 flex-1 min-w-0">
+          <span className="text-4xl md:text-5xl font-bold leading-none tabular-nums">
+            $<AnimatedPrice target={PRICE_MONTHLY_EARLY} />
+          </span>
+          <div className="flex flex-col pb-0.5">
+            <span className="text-muted line-through text-sm">${PRICE_MONTHLY_REGULAR}</span>
+            <span className="text-xs text-muted">per month · early price</span>
+          </div>
         </div>
         <Button
           variant="ghost"
           size="sm"
           onPress={() => document.getElementById("pricing")?.scrollIntoView({ behavior: "smooth" })}
-          className="ml-auto text-xs text-primary gap-1"
+          className="text-xs text-primary gap-1 shrink-0"
         >
           View pricing
           <Icon icon="lucide:arrow-down" width={11} />
@@ -273,7 +275,7 @@ function CreatorNav() {
 
 function CreatorHero() {
   return (
-    <section className="flex flex-col items-center text-center px-6 md:px-12 pt-28 pb-10 max-w-4xl mx-auto">
+    <section className="flex flex-col items-center text-center px-5 md:px-12 pt-20 md:pt-28 pb-10 max-w-4xl mx-auto">
       <motion.div
         className="flex flex-col items-center gap-6 w-full"
         initial={{ opacity: 0, y: 28 }}
@@ -291,7 +293,7 @@ function CreatorHero() {
         </motion.div>
 
         <motion.h1
-          className="text-5xl md:text-7xl font-bold tracking-tight leading-[1.08]"
+          className="text-4xl sm:text-5xl md:text-7xl font-bold tracking-tight leading-[1.08]"
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.15, ease }}

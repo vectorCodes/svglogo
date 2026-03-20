@@ -104,7 +104,7 @@ export function EmailForm() {
               transition={{ duration: 0.25, ease }}
               className="flex flex-col items-center gap-2"
             >
-              <div className="flex gap-2">
+              <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
                 <Input
                   type="email"
                   placeholder="your@email.com"
@@ -112,7 +112,7 @@ export function EmailForm() {
                   onChange={(e) => setEmail(e.target.value)}
                   onKeyDown={(e) => e.key === "Enter" && handleSignup()}
                   variant="secondary"
-                  className="w-60"
+                  className="w-full sm:w-60"
                   disabled={loading}
                 />
                 <Button
@@ -120,6 +120,7 @@ export function EmailForm() {
                   isDisabled={!email.trim()}
                   isPending={loading}
                   data-umami-event="creator early access signup"
+                  className="w-full sm:w-auto"
                 >
                   Get early access
                 </Button>

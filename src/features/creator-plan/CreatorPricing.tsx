@@ -30,7 +30,7 @@ const FEATURES: { label: string; free: boolean; creator: boolean }[] = [
   { label: "Multiple logo effects", free: false, creator: true },
   { label: "Curated color palette", free: false, creator: true },
   { label: "Social media assets export", free: false, creator: true },
-  { label: "App Store & home screen previews", free: false, creator: true },
+  { label: "App Storae & home screen previews", free: false, creator: true },
   { label: "Logo variants (light/dark/transparent)", free: false, creator: true },
   { label: "Sync collections across devices", free: false, creator: true },
   { label: "Priority support + Discord", free: false, creator: true },
