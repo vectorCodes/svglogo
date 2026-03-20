@@ -12,7 +12,7 @@ export function PrivacyCard() {
         <CardLabel>Privacy</CardLabel>
         <CardTitle>Runs in Your Browser</CardTitle>
         <CardDesc>
-          No server, no uploads, no account. Your designs never leave your device.
+          No sign-up required. Your designs run entirely in your browser and never leave your device — unless you choose to share or sync.
         </CardDesc>
       </div>
 

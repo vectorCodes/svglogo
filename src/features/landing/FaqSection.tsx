@@ -9,11 +9,11 @@ const FAQS = [
   },
   {
     q: 'Do I need to create an account?',
-    a: 'No account, no email, no sign-up of any kind. Just open the editor and start creating.',
+    a: 'No account needed to use the editor. Sign up only if you want to save logos to your account and sync your collection across devices.',
   },
   {
     q: 'Is my data private?',
-    a: 'Everything runs directly in your browser. Your logo designs are never sent to any server unless you explicitly click "Share" to generate a shareable link.',
+    a: 'Your designs run entirely in your browser and are never uploaded to any server. The only exception is when you click "Share" to generate a link, or if you sign in to sync your saved logos.',
   },
   {
     q: 'What file formats can I export?',

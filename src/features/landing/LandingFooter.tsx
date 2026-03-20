@@ -1,7 +1,6 @@
 import { Icon } from '@iconify/react'
 import { Button } from '@heroui/react'
 import { motion } from 'framer-motion'
-import { Heart } from '@gravity-ui/icons'
 
 export function LandingFooter() {
   return (
@@ -18,7 +17,7 @@ export function LandingFooter() {
           Ready to make your logo?
         </h2>
         <p className="text-muted mb-8">
-          No account. No cost. Just open the editor and go.
+          Free to use, no sign-up required. Create an account when you're ready to save and sync.
         </p>
         <a href="/editor">
           <Button size="lg" className="font-semibold px-8 gap-2">
@@ -32,9 +31,8 @@ export function LandingFooter() {
       <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-(--muted)/60">
         <p>© {new Date().getFullYear()} SVGLogo.dev — Free forever.</p>
         <div className="flex items-center gap-4">
-          <p>
-            Made with <Heart className="inline-block" fontSize={16} /> by <a href="https://x.com/monawwarx" className="hover:text-muted transition-colors">Monawwar</a>
-          </p>
+          <a href="/privacy" className="hover:text-muted transition-colors">Privacy</a>
+          <a href="/terms" className="hover:text-muted transition-colors">Terms</a>
         </div>
       </div>
     </footer>

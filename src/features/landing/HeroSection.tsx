@@ -11,21 +11,6 @@ export function HeroSection() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
       >
-        <motion.a
-          href="https://www.producthunt.com/products/svglogo?embed=true&amp;utm_source=badge-featured&amp;utm_medium=badge&amp;utm_campaign=badge-svglogo"
-          target="_blank"
-          rel="noopener noreferrer"
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.25, ease: [0.22, 1, 0.36, 1] }}
-          className='mb-4 ph-glow'
-          data-umami-event="click producthunt"
-          data-umami-event-source="landing"
-        >
-          <img alt="SVGLogo - Generate clean, export-ready logos from icons in seconds. | Product Hunt" width="250" height="54" src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=1101768&amp;theme=dark&amp;t=1773894483224" />
-        </motion.a>
         {/* Headline */}
         <motion.h1
           className="text-5xl md:text-7xl font-bold tracking-tight mb-6 leading-[1.08]"
@@ -56,7 +41,7 @@ export function HeroSection() {
           animate={{ opacity: 1 }}
           transition={{ duration: 0.6, delay: 0.28, ease: 'easeOut' }}
         >
-          Everything stays in your browser. 100% Open-source.
+          No sign-up required. 100% free and open-source.
         </motion.p>
 
         {/* CTAs */}

@@ -235,7 +235,7 @@ function CollectionsCard() {
       <CardLabel>Organization</CardLabel>
       <CardTitle>Save Collections</CardTitle>
       <CardDesc>
-        Bookmark your favorite logo variations locally — no account, no cloud.
+        Save your favorite logo variations locally. Sign in to sync your collection across devices.
       </CardDesc>
     </Card>
   )
