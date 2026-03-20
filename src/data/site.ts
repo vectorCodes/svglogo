@@ -13,7 +13,7 @@ export const SEO = {
 } as const
 
 export const CREATOR_SEO = {
-  title: 'Creator Plan — Professional Branding Tools | SVGLogo.dev',
+  title: 'Creator Plan — Logo Brand Kits & Assets | SVGLogo.dev',
   description:
     'Brand kits, social media assets, and logo variants built for agencies, indie studios, and serious makers. Early access starting at $4.99/mo.',
   keywords:
