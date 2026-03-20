@@ -1,5 +1,6 @@
 import { Button, Label, Modal, Separator, Tabs } from "@heroui/react";
 import { CHANGELOG } from "#/data/changelog";
+import { PRICE_ONE_TIME, PRICE_ONE_TIME_EARLY } from "#/data/creator-plan";
 
 const shortcuts = [
   { action: "Undo", shortcut: "⌘ + Z" },
@@ -53,19 +54,17 @@ export function InfoModal({ isOpen, onClose, defaultTab, highlightLatest }: Info
                 <Tabs.Panel id="about" className="h-64 overflow-y-auto px-4 py-4">
                   <div className="flex flex-col gap-3 text-sm text-muted h-full">
                     <p>
-                      SVGLogo is a free, browser-based logo generator. Pick any
-                      icon from 10+ icon sets, customize colors, backgrounds, and
-                      borders, then export as SVG, PNG, or ICO in seconds.
+                      Free browser-based logo maker — pick an icon, customize colors and backgrounds, export as SVG, PNG, or ICO. No account needed to get started.
                       <Separator className="mt-4"/>
                     </p>
-                    
                     <p>
-                      No sign-up required. Everything runs locally in your
-                      browser — your designs stay private.
+                      Need brand kits, social assets, and logo variants?{" "}
+                      <a href="/creator" className="text-primary hover:underline font-medium">Creator Plan</a>
+                      {" "}is a one-time purchase at ${PRICE_ONE_TIME_EARLY}.
                     </p>
                     <span className="flex-1"/>
                     <p>
-                      The project is open-source and completely free to use.
+                      Free to use for any purpose, forever.
                     </p>
                   </div>
                 </Tabs.Panel>
