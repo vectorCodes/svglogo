@@ -7,7 +7,7 @@ import { ArrowLeft } from "@gravity-ui/icons";
 import { GridBackground } from "#/features/editor/GridBackground";
 import { LandingFooter } from "#/features/landing/LandingFooter";
 import { Card, CardDesc, CardLabel, CardTitle } from "#/features/landing/BentoGrid";
-import { LAUNCH_DATE, PRICE_MONTHLY_EARLY, PRICE_MONTHLY_REGULAR } from "#/data/creator-plan";
+import { LAUNCH_DATE, PRICE_ONE_TIME, PRICE_ONE_TIME_EARLY } from "#/data/creator-plan";
 import { EmailForm } from "./EmailForm";
 import { CreatorPricing } from "./CreatorPricing";
 
@@ -45,7 +45,7 @@ const COMING_FEATURES = [
 // --- Animated price counter ---
 
 function AnimatedPrice({ target }: { target: number }) {
-  const [display, setDisplay] = useState("8.00");
+  const [display, setDisplay] = useState("50");
   const ref = useRef<HTMLSpanElement>(null);
   const triggered = useRef(false);
 
@@ -56,13 +56,13 @@ function AnimatedPrice({ target }: { target: number }) {
       ([entry]) => {
         if (entry.isIntersecting && !triggered.current) {
           triggered.current = true;
-          const start = 8;
+          const start = 50;
           const duration = 900;
           const startTime = performance.now();
           const tick = (now: number) => {
             const progress = Math.min((now - startTime) / duration, 1);
             const eased = 1 - (1 - progress) ** 3;
-            setDisplay((start + (target - start) * eased).toFixed(2));
+            setDisplay(Math.round(start + (target - start) * eased).toString());
             if (progress < 1) requestAnimationFrame(tick);
           };
           requestAnimationFrame(tick);
@@ -97,11 +97,11 @@ function PricingCard() {
       <div className="flex flex-wrap items-end gap-3">
         <div className="flex items-end gap-3 flex-1 min-w-0">
           <span className="text-4xl md:text-5xl font-bold leading-none tabular-nums">
-            $<AnimatedPrice target={PRICE_MONTHLY_EARLY} />
+            $<AnimatedPrice target={PRICE_ONE_TIME_EARLY} />
           </span>
           <div className="flex flex-col pb-0.5">
-            <span className="text-muted line-through text-sm">${PRICE_MONTHLY_REGULAR}</span>
-            <span className="text-xs text-muted">per month · early price</span>
+            <span className="text-muted line-through text-sm">${PRICE_ONE_TIME}</span>
+            <span className="text-xs text-muted">one-time · early price</span>
           </div>
         </div>
         <Button
@@ -110,7 +110,7 @@ function PricingCard() {
           onPress={() => document.getElementById("pricing")?.scrollIntoView({ behavior: "smooth" })}
           className="text-xs text-primary gap-1 shrink-0"
         >
-          View pricing
+          View all features
           <Icon icon="lucide:arrow-down" width={11} />
         </Button>
       </div>
@@ -218,7 +218,7 @@ function ComingFeaturesCard() {
       <CardLabel>What's coming</CardLabel>
       <CardTitle>Built for creators</CardTitle>
       <CardDesc>
-        Everything being built for Creator Plan — shipped after launch, included in your subscription.
+        Everything being built for Creator Plan — shipped after launch, included in your purchase.
       </CardDesc>
       <div className="mt-5 grid grid-cols-2 sm:grid-cols-3 gap-2">
         {COMING_FEATURES.map((f) => (
@@ -354,7 +354,7 @@ function CreatorSignupCta() {
         <div>
           <h2 className="text-3xl md:text-4xl font-bold mb-3">Lock in early access</h2>
           <p className="text-muted max-w-md mx-auto">
-            Sign up before {LAUNCH_DATE} — your early price is locked in for the first year.
+            Sign up before {LAUNCH_DATE} — lock in the early access price before it goes up.
           </p>
         </div>
         <EmailForm />

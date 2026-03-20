@@ -15,7 +15,7 @@ export const SEO = {
 export const CREATOR_SEO = {
   title: 'Creator Plan — Logo Brand Kits & Assets | SVGLogo.dev',
   description:
-    'Brand kits, social media assets, and logo variants built for agencies, indie studios, and serious makers. Early access starting at $4.99/mo.',
+    'Brand kits, social media assets, and logo variants built for agencies, indie studios, and serious makers. One-time purchase — early access at $40.',
   keywords:
     'logo brand kit, social media assets, logo variants, brand identity tool, logo maker for studios, professional logo creator, agency branding tool, logo export pack',
   ogImage: `${SITE_URL}/og/banner.png`,
@@ -33,7 +33,7 @@ export const CREATOR_JSON_LD = JSON.stringify({
   brand: { '@type': 'Brand', name: 'SVGLogo.dev' },
   offers: {
     '@type': 'Offer',
-    price: '4.99',
+    price: '40',
     priceCurrency: 'USD',
     priceValidUntil: '2026-04-17',
     availability: 'https://schema.org/PreOrder',
@@ -48,7 +48,7 @@ export const FAQ_ITEMS = [
   },
   {
     q: 'What does the Creator Plan include?',
-    a: 'Creator Plan adds social media asset exports (Twitter/X, LinkedIn, Open Graph), light/dark/transparent logo variants, brand kits, and priority support — starting at $4.99/mo for early members.',
+    a: 'Creator Plan adds social media asset exports (Twitter/X, LinkedIn, Open Graph), light/dark/transparent logo variants, brand kits, and priority support — one-time purchase at $40 for early members ($50 after launch).',
   },
   {
     q: 'Do I need to create an account?',

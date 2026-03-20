@@ -101,7 +101,7 @@ function IconsCard() {
   return (
     <Card className="col-span-1 md:col-span-2 p-6" delay={0}>
       <CardLabel>Icon Library</CardLabel>
-      <CardTitle>300,000+ Icons</CardTitle>
+      <CardTitle>10,000+ Icons</CardTitle>
       <CardDesc>
         Lucide, Material Design, Tabler, Phosphor, Simple Icons, and more.
       </CardDesc>

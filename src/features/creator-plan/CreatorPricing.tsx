@@ -1,14 +1,10 @@
 import { Icon } from "@iconify/react";
 import { motion } from "framer-motion";
-import { useState } from "react";
 import {
-  ANNUAL_SAVINGS_PCT,
+  EARLY_ACCESS_DISCOUNT,
   LAUNCH_DATE,
-  PRICE_ANNUAL_EARLY,
-  PRICE_ANNUAL_REGULAR,
-  PRICE_ANNUAL_TOTAL_EARLY,
-  PRICE_MONTHLY_EARLY,
-  PRICE_MONTHLY_REGULAR,
+  PRICE_ONE_TIME,
+  PRICE_ONE_TIME_EARLY,
 } from "#/data/creator-plan";
 import { ArrowRight } from "@gravity-ui/icons";
 
@@ -37,11 +33,6 @@ const FEATURES: { label: string; free: boolean; creator: boolean }[] = [
 ];
 
 export function CreatorPricing() {
-  const [annual, setAnnual] = useState(false);
-
-  const earlyPrice = annual ? PRICE_ANNUAL_EARLY : PRICE_MONTHLY_EARLY;
-  const regularPrice = annual ? PRICE_ANNUAL_REGULAR : PRICE_MONTHLY_REGULAR;
-
   return (
     <motion.section
       initial={{ opacity: 0, y: 24 }}
@@ -53,28 +44,7 @@ export function CreatorPricing() {
     >
       <div className="text-center mb-10">
         <h2 className="text-3xl md:text-4xl font-bold mb-3">Simple pricing</h2>
-        <p className="text-muted">Early access price — locked in for your first year.</p>
-
-        <div className="inline-flex items-center gap-2 mt-6 rounded-xl border border-border bg-[var(--surface)] p-1">
-          <button
-            type="button"
-            onClick={() => setAnnual(false)}
-            className={`px-4 py-1.5 rounded-lg text-sm font-medium transition-colors ${!annual ? "bg-[var(--surface-secondary)] text-[var(--foreground)]" : "text-muted"}`}
-          >
-            Monthly
-          </button>
-          <button
-            type="button"
-            onClick={() => setAnnual(true)}
-            className={`px-4 py-1.5 rounded-lg text-sm font-medium transition-colors flex items-center gap-1.5 ${annual ? "bg-[var(--surface-secondary)] text-[var(--foreground)]" : "text-muted"}`}
-            data-umami-event="switch to annual"
-          >
-            Annual
-            <span className="text-[10px] font-semibold text-primary bg-primary/10 px-1.5 py-0.5 rounded-full">
-              Save {ANNUAL_SAVINGS_PCT}%
-            </span>
-          </button>
-        </div>
+        <p className="text-muted">One-time purchase — pay once, own it forever.</p>
       </div>
 
       <div className="overflow-x-auto rounded-2xl border border-border">
@@ -96,17 +66,16 @@ export function CreatorPricing() {
           {/* Creator */}
           <div className="p-5 border-l border-primary/20 bg-primary/[0.03] flex flex-col gap-1 relative">
             <div className="absolute top-3 right-3">
-              <span className="text-[10px] font-semibold text-primary bg-primary/10 px-2 py-0.5 rounded-full">Early Access</span>
+              <span className="text-[10px] font-semibold text-primary bg-primary/10 px-2 py-0.5 rounded-full">
+                {EARLY_ACCESS_DISCOUNT * 100}% off
+              </span>
             </div>
             <p className="text-[10px] font-semibold uppercase tracking-widest text-muted/50">Creator</p>
             <div className="flex items-baseline gap-1.5">
-              <span className="text-2xl font-bold tabular-nums">${earlyPrice}</span>
-              <span className="text-xs text-muted line-through">${regularPrice}</span>
-              <span className="text-xs text-muted">/ mo</span>
+              <span className="text-2xl font-bold tabular-nums">${PRICE_ONE_TIME_EARLY}</span>
+              <span className="text-xs text-muted line-through">${PRICE_ONE_TIME}</span>
+              <span className="text-xs text-muted">one-time</span>
             </div>
-            {annual && (
-              <p className="text-[10px] text-muted">${PRICE_ANNUAL_TOTAL_EARLY} billed annually</p>
-            )}
           </div>
         </div>
 
@@ -137,7 +106,7 @@ export function CreatorPricing() {
       </div>
 
       <p className="text-center text-xs text-muted/60 mt-4">
-        Launching {LAUNCH_DATE} · Early price locked in for your first year · Cancel anytime
+        Launching {LAUNCH_DATE} · Early access price — pay once, use forever
       </p>
     </motion.section>
   );

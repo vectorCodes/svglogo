@@ -50,6 +50,7 @@ export function EmailForm() {
     try {
       let token = "";
       if (TURNSTILE_SITE_KEY && widgetId.current != null) {
+        window.turnstile?.reset(widgetId.current);
         token = await new Promise<string>((resolve, reject) => {
           window.turnstile?.execute(widgetId.current!, {
             callback: resolve,
@@ -91,7 +92,7 @@ export function EmailForm() {
                 <div className="w-5 h-5 rounded-full bg-success/10 flex items-center justify-center shrink-0">
                   <Icon icon="lucide:check" width={12} className="text-success" />
                 </div>
-                You're in — early price locked in for your first year
+                You're in — early access price secured
               </div>
               <p className="text-xs text-(--muted)/70">We'll reach out before {LAUNCH_DATE}.</p>
             </motion.div>

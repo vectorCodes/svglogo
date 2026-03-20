@@ -6,7 +6,7 @@ import { BentoGrid } from './BentoGrid'
 import { TestimonialsSection } from './TestimonialsSection'
 import { FaqSection } from './FaqSection'
 import { LandingFooter } from './LandingFooter'
-import { LAUNCH_DATE, PRICE_MONTHLY_EARLY } from '#/data/creator-plan'
+import { LAUNCH_DATE, PRICE_ONE_TIME_EARLY } from '#/data/creator-plan'
 
 function CreatorPlanBanner() {
   return (
@@ -25,7 +25,7 @@ function CreatorPlanBanner() {
             Launching {LAUNCH_DATE}
           </p>
           <h3 className="text-xl font-bold">Want more? Try Creator Plan.</h3>
-          <p className="text-sm text-muted">Social assets, logo variants, brand kits — starting at ${PRICE_MONTHLY_EARLY}/mo.</p>
+          <p className="text-sm text-muted">Social assets, logo variants, brand kits — one-time purchase at ${PRICE_ONE_TIME_EARLY}.</p>
         </div>
         <div className="flex items-center gap-2 text-sm font-medium text-primary shrink-0 group-hover:gap-3 transition-all">
           See Creator Plan

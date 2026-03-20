@@ -65,7 +65,7 @@ export function CreatorPlanModal({ isOpen, onClose }: CreatorPlanModalProps) {
                 </div>
 
                 <p className="text-xs text-muted/50">
-                  Launching {LAUNCH_DATE}. Early members lock in a reduced price for their first year.
+                  Launching {LAUNCH_DATE}. Early members get 20% off — pay once, own it forever.
                 </p>
               </div>
             </Modal.Body>
