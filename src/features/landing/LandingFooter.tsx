@@ -17,7 +17,7 @@ export function LandingFooter() {
           Ready to make your logo?
         </h2>
         <p className="text-muted mb-8">
-          Free to use, no sign-up required. Create an account when you're ready to save and sync.
+          No account. No cost. Just open the editor and go.
         </p>
         <a href="/editor">
           <Button size="lg" className="font-semibold px-8 gap-2">
@@ -29,10 +29,10 @@ export function LandingFooter() {
 
       {/* Bottom bar */}
       <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-(--muted)/60">
-        <p>© {new Date().getFullYear()} SVGLogo.dev — Free forever.</p>
+        <p>© {new Date().getFullYear()} SVGLogo.dev</p>
         <div className="flex items-center gap-4">
-          <a href="/privacy" className="hover:text-muted transition-colors">Privacy</a>
-          <a href="/terms" className="hover:text-muted transition-colors">Terms</a>
+          <a href="/privacy" className="hover:text-muted transition-colors">Privacy Policy</a>
+          <a href="/terms" className="hover:text-muted transition-colors">Terms of Use</a>
         </div>
       </div>
     </footer>

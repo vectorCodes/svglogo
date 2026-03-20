@@ -17,7 +17,7 @@ export const TESTIMONIALS: Testimonial[] = [
     quote: "This is great! I'm working on a few MVPs and I'll likely use it.",
     author: "u/DanielNavarra",
     source: "reddit",
-    url: "https://reddit.com/user/DanielNavarra",
+    url: "https://www.reddit.com/r/SideProject/comments/1rv9hot/comment/oas6o3s",
   },
   {
     quote: "Great job! I like it. Much better than messing with Canva.",

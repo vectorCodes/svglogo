@@ -1,4 +1,3 @@
-import { LogoGithub } from "@gravity-ui/icons";
 import { Button, Tooltip } from "@heroui/react";
 import { Icon } from "@iconify/react";
 import { motion, type Variants } from "framer-motion";
@@ -6,11 +5,9 @@ import { useState } from "react";
 import { trackEvent } from "#/lib/analytics";
 import { useChangelogStatus } from "#/queries/changelog/use-changelog-status";
 import { InfoModal } from "./InfoModal";
+import { CreatorPlanButton } from "../creator-plan/CreatorPlanButton";
 
-const FEEDBACK_URL = "https://x.com/monawwarx";
-const DISCORD_URL = "https://discord.gg/qjxWBqtYZu";
-const YOUTUBE_URL = "https://youtube.com/@monawwar";
-const KOFI_URL = "https://ko-fi.com/monawwar";
+const X_URL = "https://x.com/monawwarx";
 
 const containerVariants: Variants = {
   hidden: { opacity: 0 },
@@ -57,7 +54,7 @@ export function FABs() {
       <motion.div variants={itemVariants}>
         <Tooltip delay={0}>
           <Tooltip.Trigger>
-            <a href={FEEDBACK_URL} target="_blank" rel="noreferrer" data-umami-event="click x link">
+            <a href={X_URL} target="_blank" rel="noreferrer" data-umami-event="click x link">
               <Button variant="ghost" isIconOnly aria-label="Follow on X">
                 <Icon icon="simple-icons:x" width={12} height={12} />
               </Button>
@@ -65,56 +62,6 @@ export function FABs() {
           </Tooltip.Trigger>
           <Tooltip.Content placement="left">
             <p>Follow on X</p>
-          </Tooltip.Content>
-        </Tooltip>
-      </motion.div>
-
-      <motion.div variants={itemVariants}>
-        <Tooltip delay={0}>
-          <Tooltip.Trigger>
-            <a href={DISCORD_URL} target="_blank" rel="noreferrer" data-umami-event="click discord link">
-              <Button variant="ghost" isIconOnly aria-label="Discord">
-                <Icon icon="simple-icons:discord" width={12} height={12} />
-              </Button>
-            </a>
-          </Tooltip.Trigger>
-          <Tooltip.Content placement="left">
-            <p>Share your feedback</p>
-          </Tooltip.Content>
-        </Tooltip>
-      </motion.div>
-
-      <motion.div variants={itemVariants}>
-        <Tooltip delay={0}>
-          <Tooltip.Trigger>
-            <a href={YOUTUBE_URL} target="_blank" rel="noreferrer" data-umami-event="click youtube link">
-              <Button variant="ghost" isIconOnly aria-label="YouTube">
-                <Icon icon="simple-icons:youtube" width={12} height={12} />
-              </Button>
-            </a>
-          </Tooltip.Trigger>
-          <Tooltip.Content placement="left">
-            <p>YouTube</p>
-          </Tooltip.Content>
-        </Tooltip>
-      </motion.div>
-
-      <motion.div variants={itemVariants}>
-        <Tooltip delay={0}>
-          <Tooltip.Trigger>
-            <a
-              href="https://github.com/mxvsh/svglogo"
-              target="_blank"
-              rel="noreferrer"
-              data-umami-event="click github link"
-            >
-              <Button variant="ghost" isIconOnly aria-label="Star on GitHub">
-                <LogoGithub />
-              </Button>
-            </a>
-          </Tooltip.Trigger>
-          <Tooltip.Content placement="left">
-            <p>Star on GitHub</p>
           </Tooltip.Content>
         </Tooltip>
       </motion.div>
@@ -137,22 +84,6 @@ export function FABs() {
           </Tooltip.Trigger>
           <Tooltip.Content placement="left">
             <p>About</p>
-          </Tooltip.Content>
-        </Tooltip>
-      </motion.div>
-      
-      <motion.div variants={itemVariants}>
-        <Tooltip delay={0}>
-          <Tooltip.Trigger>
-            <a href={KOFI_URL} target="_blank" rel="noreferrer" data-umami-event="click kofi link">
-              <Button variant="outline" aria-label="Support on Ko-fi">
-                <Icon icon="simple-icons:kofi" width={12} height={12} />
-                Support on Ko-fi
-              </Button>
-            </a>
-          </Tooltip.Trigger>
-          <Tooltip.Content placement="left">
-            <p>Support on Ko-fi</p>
           </Tooltip.Content>
         </Tooltip>
       </motion.div>

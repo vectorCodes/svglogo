@@ -20,7 +20,7 @@ export function CollectionsButton() {
     <div className="pointer-events-auto">
       <Popover>
         <Popover.Trigger>
-          <Button size="lg">
+          <Button variant="outline" size="lg">
             <BookOpen />
             Collections
           </Button>

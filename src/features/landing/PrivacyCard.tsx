@@ -26,7 +26,7 @@ export function PrivacyCard() {
             <Icon icon="simple-icons:github" width={13} />
             View source code
           </span>
-          <Icon icon="lucide:arrow-up-right" width={13} className="text-[var(--muted)]" />
+          <Icon icon="lucide:arrow-up-right" width={13} className="text-muted" />
         </Button>
       </a>
     </Card>

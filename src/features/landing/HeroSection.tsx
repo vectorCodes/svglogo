@@ -25,7 +25,7 @@ export function HeroSection() {
 
         {/* Subheadline */}
         <motion.p
-          className="text-lg md:text-xl text-[var(--muted)] max-w-2xl leading-relaxed mb-4"
+          className="text-lg md:text-xl text-muted max-w-2xl leading-relaxed mb-4"
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
@@ -36,12 +36,12 @@ export function HeroSection() {
 
         {/* Privacy note */}
         <motion.p
-          className="text-sm text-[var(--muted)]/60 mb-10"
+          className="text-sm text-muted/60 mb-10"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.6, delay: 0.28, ease: 'easeOut' }}
         >
-          No sign-up required. 100% free and open-source.
+          No account needed. No watermarks. No limits.
         </motion.p>
 
         {/* CTAs */}
@@ -61,16 +61,11 @@ export function HeroSection() {
               <Icon icon="lucide:arrow-right" width={16} />
             </Button>
           </a>
-          <Button
-            size="lg"
-            variant="ghost"
-            className="text-muted"
-            onPress={() =>
-              document.getElementById('features')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
-            }
-          >
-            See features
-          </Button>
+          <a href="/creator">
+            <Button size="lg" variant="ghost" className="text-muted">
+              View Creator Plan
+            </Button>
+          </a>
         </motion.div>
 
         {/* App screenshot */}
@@ -80,7 +75,7 @@ export function HeroSection() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.42, ease: [0.22, 1, 0.36, 1] }}
         >
-          <div className="rounded-2xl border border-[var(--border)] overflow-hidden shadow-2xl shadow-black/40">
+          <div className="rounded-2xl border border-border overflow-hidden shadow-2xl shadow-black/40">
             <img
               src="/screenshot.png"
               alt="SVGLogo.dev editor — SVG logo maker interface"

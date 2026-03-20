@@ -67,7 +67,7 @@ export function Card({
   return (
     <motion.div
       {...cardVariants(delay)}
-      className={`rounded-2xl border border-[var(--border)] bg-[var(--surface)] overflow-hidden relative ${className ?? ''}`}
+      className={`rounded-2xl border border-border bg-[var(--surface)] overflow-hidden relative ${className ?? ''}`}
     >
       {children}
     </motion.div>
@@ -76,7 +76,7 @@ export function Card({
 
 export function CardLabel({ children }: { children: React.ReactNode }) {
   return (
-    <p className="text-[10px] font-semibold uppercase tracking-widest text-[var(--muted)]/50 mb-1.5">
+    <p className="text-[10px] font-semibold uppercase tracking-widest text-muted/50 mb-1.5">
       {children}
     </p>
   )
@@ -92,7 +92,7 @@ export function CardTitle({ children }: { children: React.ReactNode }) {
 
 export function CardDesc({ children }: { children: React.ReactNode }) {
   return (
-    <p className="text-sm text-[var(--muted)] leading-relaxed">{children}</p>
+    <p className="text-sm text-muted leading-relaxed">{children}</p>
   )
 }
 
@@ -101,7 +101,7 @@ function IconsCard() {
   return (
     <Card className="col-span-1 md:col-span-2 p-6" delay={0}>
       <CardLabel>Icon Library</CardLabel>
-      <CardTitle>300,000+ Icons</CardTitle>
+      <CardTitle>10,000+ Icons</CardTitle>
       <CardDesc>
         Lucide, Material Design, Tabler, Phosphor, Simple Icons, and more.
       </CardDesc>
@@ -131,12 +131,11 @@ function FreeCard() {
       </div>
       <CardTitle>Free Forever</CardTitle>
       <CardDesc>
-        No freemium tiers, no watermarks, no limits. Free today, free tomorrow,
-        always.
+        Basic features are completely free forever — no sign up, no watermarks, no credit card. Ever.
       </CardDesc>
       <div className="mt-4 flex items-center gap-1.5 text-xs text-emerald-500 font-medium">
         <Icon icon="lucide:check-circle-2" width={14} />
-        No credit card ever
+        No sign up required
       </div>
     </Card>
   )
@@ -157,11 +156,11 @@ function ExportCard() {
         {EXPORT_FORMATS.map((f) => (
           <div
             key={f.label}
-            className="flex flex-col gap-1.5 rounded-xl border border-[var(--border)] bg-[var(--surface-secondary)] p-3"
+            className="flex flex-col gap-1.5 rounded-xl border border-border bg-[var(--surface-secondary)] p-3"
           >
             <Icon icon={f.icon} width={18} className="text-[var(--foreground)]" />
             <p className="text-sm font-semibold">{f.label}</p>
-            <p className="text-xs text-[var(--muted)]">{f.desc}</p>
+            <p className="text-xs text-muted">{f.desc}</p>
           </div>
         ))}
       </div>
@@ -170,7 +169,7 @@ function ExportCard() {
         {PLATFORM_PACKS.map((p) => (
           <span
             key={p.label}
-            className="flex items-center gap-1.5 text-xs px-2.5 py-1 rounded-full border border-[var(--border)] bg-[var(--surface)] text-[var(--muted)]"
+            className="flex items-center gap-1.5 text-xs px-2.5 py-1 rounded-full border border-border bg-[var(--surface)] text-muted"
           >
             <Icon icon={p.icon} width={11} />
             {p.label} pack
@@ -254,7 +253,7 @@ export function BentoGrid() {
         <h2 className="text-3xl md:text-4xl font-bold mb-3">
           Everything you need
         </h2>
-        <p className="text-[var(--muted)] text-lg">
+        <p className="text-muted text-lg">
           A full logo toolkit without the bloat.
         </p>
       </motion.div>

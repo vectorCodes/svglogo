@@ -3,6 +3,7 @@ import { useEffect, useRef } from "react";
 import type { LogoState } from "#/domain/logo/logo.types";
 import { loadLogoFromState } from "#/commands/logo/load-logo";
 import { CollectionsButton } from "#/features/collections/CollectionsButton";
+import { CreatorPlanButton } from "#/features/creator-plan/CreatorPlanButton";
 import { ShareButton } from "#/features/share/ShareButton";
 import { EditorPage } from "./EditorPage";
 import { FABs } from "./FABs";
@@ -72,6 +73,9 @@ export function AppShell({
           </motion.div>
           <motion.div variants={itemVariants}>
             <CollectionsButton />
+          </motion.div>
+          <motion.div variants={itemVariants}>
+            <CreatorPlanButton />
           </motion.div>
         </motion.div>
       </div>

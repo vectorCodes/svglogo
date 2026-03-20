@@ -1,33 +1,7 @@
 import { Icon } from '@iconify/react'
 import { motion } from 'framer-motion'
 import { useState } from 'react'
-
-const FAQS = [
-  {
-    q: 'Is SVGLogo.dev really free?',
-    a: 'Yes, completely. There are no tiers, no watermarks, no paid exports, and no limits. It has always been free and will always be free.',
-  },
-  {
-    q: 'Do I need to create an account?',
-    a: 'No account needed to use the editor. Sign up only if you want to save logos to your account and sync your collection across devices.',
-  },
-  {
-    q: 'Is my data private?',
-    a: 'Your designs run entirely in your browser and are never uploaded to any server. The only exception is when you click "Share" to generate a link, or if you sign in to sync your saved logos.',
-  },
-  {
-    q: 'What file formats can I export?',
-    a: 'You can export SVG, PNG, and ICO. You can also generate complete platform icon packs for iOS, Android, macOS, and Web/PWA with correctly sized and named assets.',
-  },
-  {
-    q: 'Can I use exported logos commercially?',
-    a: 'The app is free to use for any purpose. Keep in mind that the underlying icons come from various open-source icon libraries — check each library\'s license (most use MIT or Apache 2.0).',
-  },
-  {
-    q: 'What icon sets are available?',
-    a: 'Lucide, Material Design, Tabler, Phosphor, Simple Icons, and many more — over 300,000 icons in total via the Iconify library.',
-  },
-]
+import { FAQ_ITEMS } from '#/data/site'
 
 function FaqItem({
   q,
@@ -46,7 +20,7 @@ function FaqItem({
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-40px' }}
       transition={{ duration: 0.4, delay, ease: [0.22, 1, 0.36, 1] }}
-      className="border-b border-[var(--border)] last:border-0"
+      className="border-b border-border last:border-0"
     >
       <button
         type="button"
@@ -57,11 +31,11 @@ function FaqItem({
         <Icon
           icon="lucide:chevron-down"
           width={16}
-          className={`mt-0.5 shrink-0 text-[var(--muted)] transition-transform duration-200 ${open ? 'rotate-180' : ''}`}
+          className={`mt-0.5 shrink-0 text-muted transition-transform duration-200 ${open ? 'rotate-180' : ''}`}
         />
       </button>
       {open && (
-        <p className="pb-5 text-sm text-[var(--muted)] leading-relaxed">{a}</p>
+        <p className="pb-5 text-sm text-muted leading-relaxed">{a}</p>
       )}
     </motion.div>
   )
@@ -80,13 +54,13 @@ export function FaqSection() {
         <h2 className="text-3xl md:text-4xl font-bold mb-3">
           Common questions
         </h2>
-        <p className="text-[var(--muted)] text-lg">
+        <p className="text-muted text-lg">
           Everything you need to know before you start.
         </p>
       </motion.div>
 
-      <div className="rounded-2xl border border-[var(--border)] bg-[var(--surface)] px-6">
-        {FAQS.map((faq, i) => (
+      <div className="rounded-2xl border border-border bg-[var(--surface)] px-6">
+        {FAQ_ITEMS.map((faq, i) => (
           <FaqItem key={faq.q} q={faq.q} a={faq.a} delay={i * 0.04} />
         ))}
       </div>
