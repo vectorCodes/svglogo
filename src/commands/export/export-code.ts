@@ -3,11 +3,21 @@ import { writeText } from "#/infra/clipboard/clipboard";
 import { type CodeFramework, svgToCode } from "#/domain/export/svg-to-code";
 import { trackEvent } from "#/lib/analytics";
 import { useLogoStore } from "#/store/logo-store";
+import xmlFormat from "xml-formatter";
+
+function formatSvg(svg: string): string {
+  return xmlFormat(svg, {
+    indentation: "  ",
+    collapseContent: true,
+    lineSeparator: "\n",
+  });
+}
 
 export async function generateCode(framework: CodeFramework): Promise<string> {
   const state = useLogoStore.getState().present;
-  const svg = await buildCanvasSvg(state);
-  return svgToCode(svg, framework);
+  const rawSvg = await buildCanvasSvg(state);
+  const formatted = formatSvg(rawSvg);
+  return svgToCode(formatted, framework);
 }
 
 export async function copyCode(framework: CodeFramework): Promise<boolean> {

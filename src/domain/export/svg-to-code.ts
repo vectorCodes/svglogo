@@ -1,14 +1,23 @@
 export type CodeFramework = "react" | "vue" | "svelte";
 
-export function svgToCode(svg: string, framework: CodeFramework): string {
+export function svgToCode(formattedSvg: string, framework: CodeFramework): string {
   switch (framework) {
     case "react":
-      return svgToReact(svg);
+      return svgToReact(formattedSvg);
     case "vue":
-      return svgToVue(svg);
+      return svgToVue(formattedSvg);
     case "svelte":
-      return svgToSvelte(svg);
+      return formattedSvg;
   }
+}
+
+function indent(svg: string, spaces: number): string {
+  const pad = " ".repeat(spaces);
+  return svg
+    .split("\n")
+    .map((line) => (line.trim() ? `${pad}${line}` : line))
+    .join("\n")
+    .trimEnd();
 }
 
 function svgToReact(svg: string): string {
@@ -32,15 +41,12 @@ function svgToReact(svg: string): string {
     .replace(/stop-opacity="/g, 'stopOpacity="')
     .replace(/text-anchor="/g, 'textAnchor="')
     .replace(/text-decoration="/g, 'textDecoration="')
-    .replace(/dominant-baseline="/g, 'dominantBaseline="');
+    .replace(/dominant-baseline="/g, 'dominantBaseline="')
+    .replace(/^<svg/, "<svg {...props}");
 
-  return `export default function Logo(props) {\n  return (\n    ${jsx.replace(/^<svg/, "<svg {...props}")}\n  );\n}`;
+  return `export default function Logo(props) {\n  return (\n${indent(jsx, 4)}\n  );\n}`;
 }
 
 function svgToVue(svg: string): string {
-  return `<template>\n  ${svg}\n</template>`;
-}
-
-function svgToSvelte(svg: string): string {
-  return svg;
+  return `<template>\n${indent(svg, 2)}\n</template>`;
 }
