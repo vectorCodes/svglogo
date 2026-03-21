@@ -13,9 +13,11 @@ import { DiscordMockup } from "./mockups/DiscordMockup";
 import { GitHubMockup } from "./mockups/GitHubMockup";
 import { InstagramMockup } from "./mockups/InstagramMockup";
 import { LinkedInMockup } from "./mockups/LinkedInMockup";
+import { IOSHomeScreenMockup } from "./mockups/IOSHomeScreenMockup";
 import { PLATFORMS } from "#/data/platforms";
 
 const MOCKUP_MAP: Record<string, () => React.JSX.Element> = {
+  "ios-home": IOSHomeScreenMockup,
   "app-store": AppStoreMockup,
   "google-play": GooglePlayMockup,
   favicon: FaviconMockup,
@@ -39,8 +41,9 @@ export function PreviewModal({ isOpen, onClose }: PreviewModalProps) {
   const [authOpen, setAuthOpen] = useState(false);
 
   const isCreator = user?.plan === "creator";
-  const visiblePlatforms = isCreator ? PLATFORMS : PLATFORMS.slice(0, FREE_PREVIEW_COUNT);
-  const lockedPlatforms = PLATFORMS.slice(FREE_PREVIEW_COUNT);
+  const freePlatforms = PLATFORMS.filter((p) => !p.pro);
+  const visiblePlatforms = isCreator ? PLATFORMS : freePlatforms.slice(0, FREE_PREVIEW_COUNT);
+  const lockedPlatforms = isCreator ? [] : [...freePlatforms.slice(FREE_PREVIEW_COUNT), ...PLATFORMS.filter((p) => p.pro)];
 
   return (
     <>

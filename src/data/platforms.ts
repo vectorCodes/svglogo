@@ -4,6 +4,7 @@ export interface Platform {
   icon: string;
   shape: "circle" | "squircle" | "rounded" | "square";
   displaySize: number;
+  pro?: boolean;
 }
 
 export const PLATFORMS: Platform[] = [
@@ -16,4 +17,5 @@ export const PLATFORMS: Platform[] = [
   { id: "github", label: "GitHub", icon: "simple-icons:github", shape: "circle", displaySize: 40 },
   { id: "instagram", label: "Instagram", icon: "simple-icons:instagram", shape: "circle", displaySize: 44 },
   { id: "linkedin", label: "LinkedIn", icon: "simple-icons:linkedin", shape: "square", displaySize: 48 },
+  { id: "ios-home", label: "iOS Home Screen", icon: "simple-icons:apple", shape: "squircle", displaySize: 60, pro: true },
 ];
