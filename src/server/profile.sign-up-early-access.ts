@@ -9,8 +9,7 @@ export const signUpEarlyAccessFn = createServerFn({ method: "POST" }).handler(
     if (!data.user) return;
 
     await supabase
-      .from("profiles")
-      .update({ early_access: true })
-      .eq("id", data.user.id);
+      .from("early_access")
+      .upsert({ id: data.user.id, status: false });
   },
 );

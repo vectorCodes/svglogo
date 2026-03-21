@@ -38,7 +38,8 @@ export function PreviewModal({ isOpen, onClose }: PreviewModalProps) {
   const user = useAuth();
   const [authOpen, setAuthOpen] = useState(false);
 
-  const freePlatforms = PLATFORMS.slice(0, FREE_PREVIEW_COUNT);
+  const isCreator = user?.plan === "creator";
+  const visiblePlatforms = isCreator ? PLATFORMS : PLATFORMS.slice(0, FREE_PREVIEW_COUNT);
   const lockedPlatforms = PLATFORMS.slice(FREE_PREVIEW_COUNT);
 
   return (
@@ -53,7 +54,7 @@ export function PreviewModal({ isOpen, onClose }: PreviewModalProps) {
               </Modal.Header>
               <Modal.Body>
                 <div className="flex flex-col gap-4">
-                  {(user ? PLATFORMS : freePlatforms).map((p) => {
+                  {visiblePlatforms.map((p) => {
                     const Mockup = MOCKUP_MAP[p.id];
                     if (!Mockup) return null;
                     return (
@@ -64,10 +65,10 @@ export function PreviewModal({ isOpen, onClose }: PreviewModalProps) {
                     );
                   })}
 
-                  {!user && (
+                  {!isCreator && (
                     <div className="flex flex-col items-center gap-3 rounded-xl border border-border bg-surface p-5">
                       <Lock className="size-5 text-muted" />
-                      <p className="text-sm font-medium">Sign in to unlock more</p>
+                      <p className="text-sm font-medium">Upgrade to Creator Plan to unlock all previews</p>
                       <div className="flex flex-wrap items-center justify-center gap-3">
                         {lockedPlatforms.map((p) => (
                           <div key={p.id} className="flex items-center gap-1.5 text-muted">
@@ -76,13 +77,6 @@ export function PreviewModal({ isOpen, onClose }: PreviewModalProps) {
                           </div>
                         ))}
                       </div>
-                      <Button
-                        size="sm"
-                        onPress={() => setAuthOpen(true)}
-                        data-umami-event="preview sign up cta"
-                      >
-                        Sign up free
-                      </Button>
                     </div>
                   )}
                 </div>

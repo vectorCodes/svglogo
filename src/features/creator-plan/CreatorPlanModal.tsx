@@ -26,7 +26,7 @@ interface CreatorPlanModalProps {
 export function CreatorPlanModal({ isOpen, onClose }: CreatorPlanModalProps) {
   const user = useAuth();
   const [isLoading, setIsLoading] = useState(false);
-  const alreadySignedUp = user?.earlyAccess === true;
+  const ea = user?.earlyAccess ?? "none";
 
   const handleSignUp = async () => {
     setIsLoading(true);
@@ -86,7 +86,15 @@ export function CreatorPlanModal({ isOpen, onClose }: CreatorPlanModalProps) {
               </div>
             </Modal.Body>
             <Modal.Footer className="flex flex-col gap-2">
-              {alreadySignedUp ? (
+              {ea === "approved" ? (
+                <Button
+                  variant="primary"
+                  className="w-full"
+                  data-umami-event="creator plan modal buy"
+                >
+                  Buy Creator Plan
+                </Button>
+              ) : ea === "pending" ? (
                 <Button
                   variant="primary"
                   className="w-full"

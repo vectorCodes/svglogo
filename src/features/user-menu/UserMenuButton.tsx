@@ -9,10 +9,14 @@ export function UserMenuButton() {
   if (!user) return <SignInBadge />;
   return (
     <div className="flex items-center gap-2">
-      {user.plan === "creator" && (
+      {user.plan === "creator" ? (
         <span className="flex items-center gap-1.5 rounded-md border border-primary/20 bg-gradient-to-r from-primary/15 to-primary/5 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-primary shadow-sm shadow-primary/10">
           <CrownDiamond className="size-3" />
           Creator
+        </span>
+      ) : (
+        <span className="rounded-md border border-border px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-muted">
+          Free
         </span>
       )}
       <UserMenu user={user} />

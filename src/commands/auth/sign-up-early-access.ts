@@ -6,6 +6,6 @@ export async function signUpEarlyAccess() {
   const store = getAuthStore();
   const user = store.getState().user;
   if (user) {
-    store.getState().setUser({ ...user, earlyAccess: true });
+    store.getState().setUser({ ...user, earlyAccess: "pending" });
   }
 }

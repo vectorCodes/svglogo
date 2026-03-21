@@ -65,9 +65,9 @@ export function UserMenu({ user }: { user: AuthUser }) {
                 </div>
               </Dropdown.Item>
               {!isCreator && (
-                <Dropdown.Item id="upgrade" textValue="Buy Creator Plan">
+                <Dropdown.Item id="upgrade" textValue={user.earlyAccess === "approved" ? "Buy Creator Plan" : "View Creator Plan"}>
                   <div className="flex w-full items-center justify-between gap-2">
-                    <Label>Buy Creator Plan</Label>
+                    <Label>{user.earlyAccess === "approved" ? "Buy Creator Plan" : "View Creator Plan"}</Label>
                     <CrownDiamond className="size-3.5 text-muted" />
                   </div>
                 </Dropdown.Item>

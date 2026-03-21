@@ -64,10 +64,12 @@ export function MyAccountModal({ isOpen, onClose, user }: MyAccountModalProps) {
                 </span>
               </div>
 
-              {user.earlyAccess === true && user.plan !== "creator" && (
+              {user.earlyAccess !== "none" && user.plan !== "creator" && (
                 <div className="flex items-center justify-between">
                   <Label className="text-sm">Early Access</Label>
-                  <span className="text-xs text-primary font-medium">Enrolled</span>
+                  <span className={`text-xs font-medium ${user.earlyAccess === "approved" ? "text-primary" : "text-muted"}`}>
+                    {user.earlyAccess === "approved" ? "Approved" : "Pending"}
+                  </span>
                 </div>
               )}
             </Modal.Body>

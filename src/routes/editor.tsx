@@ -16,10 +16,10 @@ const fetchUser = createServerFn({ method: 'GET' }).handler(async () => {
     return null
   }
 
-  const [{ data: profile }, { data: planRow }] = await Promise.all([
+  const [{ data: profile }, { data: planRow }, { data: earlyAccessRow }] = await Promise.all([
     supabase
       .from('profiles')
-      .select('full_name, onboarding_completed, early_access')
+      .select('full_name, onboarding_completed')
       .eq('id', data.user.id)
       .single(),
     supabase
@@ -27,13 +27,21 @@ const fetchUser = createServerFn({ method: 'GET' }).handler(async () => {
       .select('plan')
       .eq('id', data.user.id)
       .single(),
+    supabase
+      .from('early_access')
+      .select('status')
+      .eq('id', data.user.id)
+      .single(),
   ])
+
+  const earlyAccess: 'none' | 'pending' | 'approved' =
+    earlyAccessRow == null ? 'none' : earlyAccessRow.status ? 'approved' : 'pending'
 
   return {
     email: data.user.email,
     fullName: (profile?.full_name as string | null) ?? null,
     onboardingCompleted: profile?.onboarding_completed ?? false,
-    earlyAccess: (profile?.early_access as boolean | null) ?? null,
+    earlyAccess,
     plan: (planRow?.plan as string) ?? 'free',
   }
 })
