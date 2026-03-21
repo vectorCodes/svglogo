@@ -6,9 +6,11 @@ import { exportIco } from "#/commands/export/export-ico";
 import { copySvg } from "#/commands/export/copy-svg";
 import { copyPng } from "#/commands/export/copy-png";
 import { AdvancedExportModal } from "./AdvancedExportModal";
+import { BrandKitModal } from "./BrandKitModal";
 
 export function ExportMenu() {
   const [advancedOpen, setAdvancedOpen] = useState(false);
+  const [brandKitOpen, setBrandKitOpen] = useState(false);
 
   const handleAction = (key: React.Key) => {
     if (key === "svg") void exportSvg();
@@ -17,6 +19,7 @@ export function ExportMenu() {
     else if (key === "copy-svg") copySvg().then((ok) => toast(ok ? "SVG copied" : "Copy failed"));
     else if (key === "copy-png") copyPng().then((ok) => toast(ok ? "PNG copied" : "Copy failed"));
     else if (key === "advanced") setAdvancedOpen(true);
+    else if (key === "brand-kit") setBrandKitOpen(true);
   };
 
   return (
@@ -52,6 +55,9 @@ export function ExportMenu() {
             <Dropdown.Item id="advanced">
               <Label>Advanced export…</Label>
             </Dropdown.Item>
+            <Dropdown.Item id="brand-kit">
+              <Label>Brand kit…</Label>
+            </Dropdown.Item>
           </Dropdown.Menu>
         </Dropdown.Popover>
       </Dropdown>
@@ -59,6 +65,10 @@ export function ExportMenu() {
       <AdvancedExportModal
         isOpen={advancedOpen}
         onClose={() => setAdvancedOpen(false)}
+      />
+      <BrandKitModal
+        isOpen={brandKitOpen}
+        onClose={() => setBrandKitOpen(false)}
       />
     </>
   );
