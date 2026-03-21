@@ -18,12 +18,11 @@ const CREATOR_FEATURES = [
 
 export function CreatorPlanCard() {
   const user = useAuth();
-
-  if (user?.earlyAccess === true) return null;
-
   const [collapsed, setCollapsed] = useState(
     () => typeof window !== "undefined" && localStorage.getItem(LS_KEY) === "1",
   );
+
+  if (user?.earlyAccess === true) return null;
 
   function toggle() {
     const next = !collapsed;

@@ -1,19 +1,25 @@
 import { Button, Label, Popover, Switch, Tooltip } from "@heroui/react";
 import { Icon } from "@iconify/react";
-import { Check } from "@gravity-ui/icons";
+import { Check, Lock } from "@gravity-ui/icons";
 import { motion } from "framer-motion";
 import { useState, useRef } from "react";
 import palettes from "nice-color-palettes/200.json";
 import { randomizeLogo } from "#/commands/logo/randomize-logo";
 import { trackEvent } from "#/lib/analytics";
 import { useLogoStore } from "#/store/logo-store";
+import { useAuth } from "#/queries/auth/use-auth";
+import { AuthModal } from "#/features/auth/AuthModal";
+
+const FREE_PALETTE_COUNT = 9;
 
 function arraysEqual(a: string[], b: string[]) {
   return a.length === b.length && a.every((v, i) => v === b[i]);
 }
 
 export function RandomizePopover() {
+  const user = useAuth();
   const textMode = useLogoStore((s) => s.present.textMode);
+  const [authOpen, setAuthOpen] = useState(false);
   const [diceRotation, setDiceRotation] = useState(0);
   const [isOpen, setIsOpen] = useState(false);
   const [paletteOpen, setPaletteOpen] = useState(false);
@@ -60,6 +66,7 @@ export function RandomizePopover() {
   };
 
   return (
+    <>
     <motion.div
       initial={{ opacity: 0, y: 72 }}
       animate={{ opacity: 1, y: 0 }}
@@ -132,7 +139,7 @@ export function RandomizePopover() {
                           {!selectedPalette && <Check className="size-3" />}
                         </button>
                         <div className="grid grid-cols-3 gap-1.5 max-h-52 overflow-y-auto">
-                          {(palettes as string[][]).map((palette, i) => {
+                          {(palettes as string[][]).slice(0, user ? undefined : FREE_PALETTE_COUNT).map((palette, i) => {
                             const isActive = selectedPalette ? arraysEqual(selectedPalette, palette) : false;
                             return (
                               <button
@@ -155,6 +162,15 @@ export function RandomizePopover() {
                               </button>
                             );
                           })}
+                          {!user && (
+                            <div className="col-span-3 flex flex-col items-center gap-2 rounded-lg border border-border p-3">
+                              <Lock className="size-4 text-muted" />
+                              <p className="text-[11px] text-muted text-center">Sign in to unlock {(palettes as string[][]).length - FREE_PALETTE_COUNT} more palettes</p>
+                              <Button variant="secondary" size="sm" className="w-full text-xs" onPress={() => { setPaletteOpen(false); setIsOpen(false); setAuthOpen(true); }} data-umami-event="palette sign up cta">
+                                Sign in
+                              </Button>
+                            </div>
+                          )}
                         </div>
                       </div>
                     </Popover.Dialog>
@@ -236,5 +252,7 @@ export function RandomizePopover() {
         </Popover.Content>
       </Popover>
     </motion.div>
+    <AuthModal isOpen={authOpen} onClose={() => setAuthOpen(false)} />
+    </>
   );
 }
