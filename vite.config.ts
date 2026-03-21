@@ -8,6 +8,9 @@ import viteReact from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
 
 const config = defineConfig({
+  server: {
+    allowedHosts: true,
+  },
   plugins: [
     cloudflare({ viteEnvironment: { name: "ssr" } }),
     devtools(),

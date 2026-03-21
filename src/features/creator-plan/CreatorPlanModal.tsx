@@ -3,6 +3,7 @@ import { Icon } from "@iconify/react";
 import { useState } from "react";
 import { LAUNCH_DATE } from "#/data/creator-plan";
 import { signUpEarlyAccess } from "#/commands/auth/sign-up-early-access";
+import { useCheckoutStore } from "#/store/checkout-store";
 import { useAuth } from "#/queries/auth/use-auth";
 
 const FEATURES = [
@@ -26,6 +27,7 @@ interface CreatorPlanModalProps {
 export function CreatorPlanModal({ isOpen, onClose }: CreatorPlanModalProps) {
   const user = useAuth();
   const [isLoading, setIsLoading] = useState(false);
+  const openCheckout = useCheckoutStore((s) => s.open);
   const ea = user?.earlyAccess ?? "none";
 
   const handleSignUp = async () => {
@@ -35,6 +37,11 @@ export function CreatorPlanModal({ isOpen, onClose }: CreatorPlanModalProps) {
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const handleBuy = () => {
+    onClose();
+    openCheckout();
   };
 
   return (
@@ -90,6 +97,7 @@ export function CreatorPlanModal({ isOpen, onClose }: CreatorPlanModalProps) {
                 <Button
                   variant="primary"
                   className="w-full"
+                  onPress={handleBuy}
                   data-umami-event="creator plan modal buy"
                 >
                   Buy Creator Plan

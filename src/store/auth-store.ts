@@ -6,6 +6,7 @@ export interface AuthUser {
   onboardingCompleted: boolean;
   earlyAccess: "none" | "pending" | "approved";
   plan: string;
+  creatorOnboarded: boolean;
 }
 
 export interface AuthStoreState {

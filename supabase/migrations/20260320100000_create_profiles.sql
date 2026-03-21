@@ -3,6 +3,7 @@ create table profiles (
   full_name text,
   role text,
   onboarding_completed boolean not null default false,
+  creator_onboarded boolean not null default false,
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
 );

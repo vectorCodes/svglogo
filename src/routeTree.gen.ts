@@ -15,7 +15,9 @@ import { Route as EditorRouteImport } from './routes/editor'
 import { Route as CreatorRouteImport } from './routes/creator'
 import { Route as SplatRouteImport } from './routes/$'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as PaymentCallbackRouteImport } from './routes/payment/callback'
 import { Route as AuthCallbackRouteImport } from './routes/auth/callback'
+import { Route as ApiWebhookRazorpayRouteImport } from './routes/api/webhook/razorpay'
 
 const TermsRoute = TermsRouteImport.update({
   id: '/terms',
@@ -47,9 +49,19 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PaymentCallbackRoute = PaymentCallbackRouteImport.update({
+  id: '/payment/callback',
+  path: '/payment/callback',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AuthCallbackRoute = AuthCallbackRouteImport.update({
   id: '/auth/callback',
   path: '/auth/callback',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiWebhookRazorpayRoute = ApiWebhookRazorpayRouteImport.update({
+  id: '/api/webhook/razorpay',
+  path: '/api/webhook/razorpay',
   getParentRoute: () => rootRouteImport,
 } as any)
 
@@ -61,6 +73,8 @@ export interface FileRoutesByFullPath {
   '/privacy': typeof PrivacyRoute
   '/terms': typeof TermsRoute
   '/auth/callback': typeof AuthCallbackRoute
+  '/payment/callback': typeof PaymentCallbackRoute
+  '/api/webhook/razorpay': typeof ApiWebhookRazorpayRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -70,6 +84,8 @@ export interface FileRoutesByTo {
   '/privacy': typeof PrivacyRoute
   '/terms': typeof TermsRoute
   '/auth/callback': typeof AuthCallbackRoute
+  '/payment/callback': typeof PaymentCallbackRoute
+  '/api/webhook/razorpay': typeof ApiWebhookRazorpayRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -80,6 +96,8 @@ export interface FileRoutesById {
   '/privacy': typeof PrivacyRoute
   '/terms': typeof TermsRoute
   '/auth/callback': typeof AuthCallbackRoute
+  '/payment/callback': typeof PaymentCallbackRoute
+  '/api/webhook/razorpay': typeof ApiWebhookRazorpayRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -91,6 +109,8 @@ export interface FileRouteTypes {
     | '/privacy'
     | '/terms'
     | '/auth/callback'
+    | '/payment/callback'
+    | '/api/webhook/razorpay'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -100,6 +120,8 @@ export interface FileRouteTypes {
     | '/privacy'
     | '/terms'
     | '/auth/callback'
+    | '/payment/callback'
+    | '/api/webhook/razorpay'
   id:
     | '__root__'
     | '/'
@@ -109,6 +131,8 @@ export interface FileRouteTypes {
     | '/privacy'
     | '/terms'
     | '/auth/callback'
+    | '/payment/callback'
+    | '/api/webhook/razorpay'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -119,6 +143,8 @@ export interface RootRouteChildren {
   PrivacyRoute: typeof PrivacyRoute
   TermsRoute: typeof TermsRoute
   AuthCallbackRoute: typeof AuthCallbackRoute
+  PaymentCallbackRoute: typeof PaymentCallbackRoute
+  ApiWebhookRazorpayRoute: typeof ApiWebhookRazorpayRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -165,11 +191,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/payment/callback': {
+      id: '/payment/callback'
+      path: '/payment/callback'
+      fullPath: '/payment/callback'
+      preLoaderRoute: typeof PaymentCallbackRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/auth/callback': {
       id: '/auth/callback'
       path: '/auth/callback'
       fullPath: '/auth/callback'
       preLoaderRoute: typeof AuthCallbackRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/webhook/razorpay': {
+      id: '/api/webhook/razorpay'
+      path: '/api/webhook/razorpay'
+      fullPath: '/api/webhook/razorpay'
+      preLoaderRoute: typeof ApiWebhookRazorpayRouteImport
       parentRoute: typeof rootRouteImport
     }
   }
@@ -183,6 +223,8 @@ const rootRouteChildren: RootRouteChildren = {
   PrivacyRoute: PrivacyRoute,
   TermsRoute: TermsRoute,
   AuthCallbackRoute: AuthCallbackRoute,
+  PaymentCallbackRoute: PaymentCallbackRoute,
+  ApiWebhookRazorpayRoute: ApiWebhookRazorpayRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

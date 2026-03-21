@@ -1,4 +1,5 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute, useNavigate } from '@tanstack/react-router'
+import { useEffect } from 'react'
 import { AppShell } from '#/features/editor/AppShell'
 import { fetchSharedLogo } from '#/queries/share/use-shared-logo'
 import { createServerFn } from '@tanstack/react-start'
@@ -6,6 +7,7 @@ import { getSupabaseServerClient } from '#/lib/supabase'
 
 interface SearchParams {
   s?: string
+  upgraded?: string
 }
 
 const fetchUser = createServerFn({ method: 'GET' }).handler(async () => {
@@ -19,7 +21,7 @@ const fetchUser = createServerFn({ method: 'GET' }).handler(async () => {
   const [{ data: profile }, { data: planRow }, { data: earlyAccessRow }] = await Promise.all([
     supabase
       .from('profiles')
-      .select('full_name, onboarding_completed')
+      .select('full_name, onboarding_completed, creator_onboarded')
       .eq('id', data.user.id)
       .single(),
     supabase
@@ -43,6 +45,7 @@ const fetchUser = createServerFn({ method: 'GET' }).handler(async () => {
     onboardingCompleted: profile?.onboarding_completed ?? false,
     earlyAccess,
     plan: (planRow?.plan as string) ?? 'free',
+    creatorOnboarded: profile?.creator_onboarded ?? false,
   }
 })
 
@@ -59,6 +62,7 @@ export const Route = createFileRoute('/editor')({
   }),
   validateSearch: (search: Record<string, unknown>): SearchParams => ({
     s: typeof search.s === 'string' ? search.s : undefined,
+    upgraded: typeof search.upgraded === 'string' ? search.upgraded : undefined,
   }),
   loaderDeps: ({ search }) => ({ shareId: search.s }),
   loader: async ({ deps }) => {
@@ -72,10 +76,19 @@ export const Route = createFileRoute('/editor')({
 function EditorRoute() {
   const { user } = Route.useRouteContext()
   const { sharedLogo } = Route.useLoaderData()
+  const { upgraded } = Route.useSearch()
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    if (upgraded === '1') {
+      navigate({ to: '/editor', search: { s: undefined, upgraded: undefined }, replace: true })
+    }
+  }, [upgraded, navigate])
+
   return (
     <AppShell
       sharedLogo={sharedLogo}
-      user={user ? { email: user.email, fullName: user.fullName, onboardingCompleted: user.onboardingCompleted, earlyAccess: user.earlyAccess, plan: user.plan } : null}
+      user={user ? { email: user.email, fullName: user.fullName, onboardingCompleted: user.onboardingCompleted, earlyAccess: user.earlyAccess, plan: user.plan, creatorOnboarded: user.creatorOnboarded } : null}
     />
   )
 }
