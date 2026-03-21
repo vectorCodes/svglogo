@@ -10,14 +10,18 @@ import { useCollections } from "#/queries/collection/use-collections";
 import { useLogoState, useLogoActions } from "#/queries/logo/use-logo-state";
 import { useLogoStore } from "#/store/logo-store";
 import { useKbShortcut } from "#/hooks/use-kb-shortcut";
+import { AnimatePresence } from "framer-motion";
 import { GridBackground } from "./GridBackground";
 import { LogoCanvas } from "./LogoCanvas";
+import { InfiniteCanvas } from "./InfiniteCanvas";
 import { CreatorPlanCard } from "./CreatorPlanCard";
 import { Dock } from "#/features/dock/Dock";
 import { TextModeToggle } from "#/features/dock/TextModeToggle";
 import { IconPickerModal } from "#/features/icon-picker/IconPickerModal";
+import { useInfiniteStore } from "#/store/infinite-store";
 
 export function EditorPage() {
+  const infiniteMode = useInfiniteStore((s) => s.enabled);
   const openIconPicker = useLogoStore((s) => s.openIconPicker);
   const { undo, redo, canUndo, canRedo } = useLogoActions();
   const present = useLogoState();
@@ -102,17 +106,25 @@ export function EditorPage() {
   return (
     <div className="relative flex h-dvh w-screen items-center justify-center overflow-hidden pb-16 md:pb-0">
       <GridBackground />
-      <CreatorPlanCard />
-      <motion.div
-        initial={{ opacity: 0, scale: 0.92, y: 16 }}
-        animate={{ opacity: 1, scale: 1, y: 0 }}
-        transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
-        className="[zoom:0.55] md:[zoom:1]"
-      >
-        <LogoCanvas />
-      </motion.div>
+      {!infiniteMode && <CreatorPlanCard />}
+      <AnimatePresence mode="wait">
+        {infiniteMode ? (
+          <InfiniteCanvas key="infinite" />
+        ) : (
+          <motion.div
+            key="single"
+            initial={{ opacity: 0, scale: 0.92, y: 16 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.95 }}
+            transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+            className="[zoom:0.55] md:[zoom:1]"
+          >
+            <LogoCanvas />
+          </motion.div>
+        )}
+      </AnimatePresence>
       <TextModeToggle />
-      <Dock />
+      {!infiniteMode && <Dock />}
       <IconPickerModal />
     </div>
   );

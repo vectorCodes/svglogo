@@ -7,10 +7,10 @@ export const CHANGELOG: ChangelogEntry[] = [
   {
     date: "Mar 21, 2026",
     changes: [
+      "Added Infinite Mode\n- Free for limited time",
       "Added Color Palette",
       "Added Preview option",
-      "Added icon set option in randomize",
-      "Added Sign In option"
+      "Added icon set option in randomize"
     ],
   },
   {

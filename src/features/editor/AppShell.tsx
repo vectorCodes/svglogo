@@ -1,9 +1,10 @@
-import { type Variants, motion } from "framer-motion";
+import { type Variants, AnimatePresence, motion } from "framer-motion";
 import { useEffect, useRef } from "react";
 import type { LogoState } from "#/domain/logo/logo.types";
 import type { AuthUser } from "#/store/auth-store";
 import { loadLogoFromState } from "#/commands/logo/load-logo";
 import { AuthStoreProvider } from "#/providers/AuthStoreProvider";
+import { useInfiniteStore } from "#/store/infinite-store";
 import { UserMenuButton } from "#/features/user-menu/UserMenuButton";
 import { CollectionsButton } from "#/features/collections/CollectionsButton";
 import { GlobalUpgradeModal } from "#/features/creator-plan/GlobalUpgradeModal";
@@ -63,33 +64,47 @@ export function AppShell({
     },
   };
 
+  const infiniteMode = useInfiniteStore((s) => s.enabled);
+
   return (
     <AuthStoreProvider user={user ?? null}>
       <div className="block">
-        <MobileTopBar />
+        <AnimatePresence>
+          {!infiniteMode && (
+            <motion.div
+              key="chrome"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+            >
+              <MobileTopBar />
 
-        <div className="hidden md:block">
-          <FABs />
-          <div className="absolute top-4 right-4 z-50">
-            <UserMenuButton />
-          </div>
-          <motion.div
-            variants={containerVariants}
-            initial="hidden"
-            animate="visible"
-            className="absolute bottom-4 right-4 z-50 flex flex-col gap-2 items-end"
-          >
-            <motion.div variants={itemVariants}>
-              <ShareButton />
+              <div className="hidden md:block">
+                <FABs />
+                <div className="absolute top-4 right-4 z-50">
+                  <UserMenuButton />
+                </div>
+                <motion.div
+                  variants={containerVariants}
+                  initial="hidden"
+                  animate="visible"
+                  className="absolute bottom-4 right-4 z-50 flex flex-col gap-2 items-end"
+                >
+                  <motion.div variants={itemVariants}>
+                    <ShareButton />
+                  </motion.div>
+                  <motion.div variants={itemVariants}>
+                    <PreviewButton />
+                  </motion.div>
+                  <motion.div variants={itemVariants}>
+                    <CollectionsButton />
+                  </motion.div>
+                </motion.div>
+              </div>
             </motion.div>
-            <motion.div variants={itemVariants}>
-              <PreviewButton />
-            </motion.div>
-            <motion.div variants={itemVariants}>
-              <CollectionsButton />
-            </motion.div>
-          </motion.div>
-        </div>
+          )}
+        </AnimatePresence>
         <OnboardingTour />
         <WelcomeOnboarding />
         <GlobalUpgradeModal />
