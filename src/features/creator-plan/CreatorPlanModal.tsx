@@ -1,7 +1,7 @@
 import { Button, Modal } from "@heroui/react";
 import { Icon } from "@iconify/react";
 import { useState } from "react";
-import { LAUNCH_DATE } from "#/data/creator-plan";
+import { LAUNCH_DATE, EARLY_DISCOUNT_PCT, PRICE_ONE_TIME, PRICE_ONE_TIME_EARLY } from "#/data/creator-plan";
 import { CREATOR_FEATURES } from "#/data/features";
 import { signUpEarlyAccess } from "#/commands/auth/sign-up-early-access";
 import { useCheckoutStore } from "#/store/checkout-store";
@@ -83,8 +83,13 @@ export function CreatorPlanModal({ isOpen, onClose }: CreatorPlanModalProps) {
                   </ul>
                 </div>
 
+                <div className="flex items-baseline gap-1.5 mb-1">
+                  <span className="text-xl font-bold tabular-nums">${PRICE_ONE_TIME_EARLY}</span>
+                  <span className="text-sm text-muted line-through">${PRICE_ONE_TIME}</span>
+                  <span className="text-xs text-muted">one-time</span>
+                </div>
                 <p className="text-xs text-muted/50">
-                  Launching {LAUNCH_DATE}. <br/> Early members get 20% off — pay once, own it forever.
+                  Launching {LAUNCH_DATE}. Early members get {EARLY_DISCOUNT_PCT}% off — pay once, own it forever.
                 </p>
               </div>
             </Modal.Body>

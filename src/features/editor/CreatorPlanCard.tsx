@@ -2,8 +2,9 @@ import { Icon } from "@iconify/react";
 import { Button } from "@heroui/react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
-import { LAUNCH_DATE, PRICE_ONE_TIME, PRICE_ONE_TIME_EARLY, EARLY_ACCESS_DISCOUNT } from "#/data/creator-plan";
+import { LAUNCH_DATE, PRICE_ONE_TIME, PRICE_ONE_TIME_EARLY, EARLY_DISCOUNT_PCT } from "#/data/creator-plan";
 import { ArrowRight } from "@gravity-ui/icons";
+import { openUpgradeModal } from "#/commands/upgrade/open-upgrade-modal";
 import { useAuth } from "#/queries/auth/use-auth";
 
 const LS_KEY = "creator_card_collapsed";
@@ -43,7 +44,7 @@ export function CreatorPlanCard() {
           <div className="flex items-center gap-2">
             <span className="text-xs font-semibold text-foreground whitespace-nowrap">Creator Plan</span>
             <span className="rounded-full bg-primary/10 px-2 py-0.5 text-[10px] font-semibold text-primary whitespace-nowrap">
-              {EARLY_ACCESS_DISCOUNT * 100}% off
+              {EARLY_DISCOUNT_PCT}% off
             </span>
           </div>
           <button
@@ -88,16 +89,14 @@ export function CreatorPlanCard() {
                   <span className="text-xs text-muted">one-time</span>
                 </div>
 
-                <a
-                  href="/creator"
-                  target="_blank"
-                  rel="noopener noreferrer"
+                <Button
+                  size="sm"
+                  className="w-full text-xs"
+                  onPress={openUpgradeModal}
                   data-umami-event="creator card cta click"
                 >
-                  <Button size="sm" className="w-full text-xs">
-                    Get early access <ArrowRight />
-                  </Button>
-                </a>
+                  Get early access <ArrowRight />
+                </Button>
                 <p className="mt-2 text-center text-[10px] text-muted/50">Launches {LAUNCH_DATE}</p>
               </div>
             </motion.div>

@@ -2,8 +2,8 @@ import { Button, Modal, Separator } from "@heroui/react";
 import { Icon } from "@iconify/react";
 import { useEffect, useState } from "react";
 import {
-  EARLY_ACCESS_DISCOUNT,
   CURRENCY_SYMBOLS,
+  EARLY_DISCOUNT_PCT,
   PRICE_ONE_TIME,
   PRICE_ONE_TIME_EARLY,
   type Currency,
@@ -153,7 +153,7 @@ export function CheckoutModal({ isOpen, onClose }: CheckoutModalProps) {
                   </div>
                   {priceData.hasEarlyAccess && (
                     <div className="flex items-center justify-between text-sm">
-                      <span className="text-primary">Early access discount ({EARLY_ACCESS_DISCOUNT * 100}%)</span>
+                      <span className="text-primary">Early access discount ({EARLY_DISCOUNT_PCT}%)</span>
                       <span className="text-primary">-{symbol}{fmt(priceData.normal - priceData.early)}</span>
                     </div>
                   )}

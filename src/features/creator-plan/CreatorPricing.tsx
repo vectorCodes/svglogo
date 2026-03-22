@@ -1,10 +1,10 @@
 import { Icon } from "@iconify/react";
 import { motion } from "framer-motion";
 import {
-  EARLY_ACCESS_DISCOUNT,
   LAUNCH_DATE,
   PRICE_ONE_TIME,
   PRICE_ONE_TIME_EARLY,
+  EARLY_DISCOUNT_PCT,
 } from "#/data/creator-plan";
 import { FEATURES } from "#/data/features";
 import { ArrowRight } from "@gravity-ui/icons";
@@ -46,7 +46,7 @@ export function CreatorPricing() {
           <div className="p-5 border-l border-primary/20 bg-primary/[0.03] flex flex-col gap-1 relative">
             <div className="absolute top-3 right-3">
               <span className="text-[10px] font-semibold text-primary bg-primary/10 px-2 py-0.5 rounded-full">
-                {EARLY_ACCESS_DISCOUNT * 100}% off
+                {EARLY_DISCOUNT_PCT}% off
               </span>
             </div>
             <p className="text-[10px] font-semibold uppercase tracking-widest text-muted/50">Creator</p>
