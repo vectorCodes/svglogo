@@ -5,7 +5,6 @@ import { exportPng } from "#/commands/export/export-png";
 import { exportIco } from "#/commands/export/export-ico";
 import { trackEvent } from "#/lib/analytics";
 import { CrownDiamond } from "@gravity-ui/icons";
-import { UserMenuButton } from "#/features/user-menu/UserMenuButton";
 import { InfoModal } from "./InfoModal";
 
 export function MobileTopBar() {
@@ -30,7 +29,6 @@ export function MobileTopBar() {
         />
       </button>
       <div className="flex items-center gap-2">
-        <UserMenuButton />
         <a href="/creator" target="_blank" rel="noopener noreferrer">
           <Button size="sm" variant="ghost" onPress={() => trackEvent("creator card cta click")}>
               <CrownDiamond />
