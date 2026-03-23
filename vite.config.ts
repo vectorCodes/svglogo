@@ -20,9 +20,6 @@ function versionFile(): Plugin {
 }
 
 const config = defineConfig({
-  define: {
-    __BUILD_HASH__: JSON.stringify(BUILD_HASH),
-  },
   server: {
     allowedHosts: true,
   },
