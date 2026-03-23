@@ -146,6 +146,7 @@ function TopBanner() {
         <button
           type="button"
           onClick={() => window.location.reload()}
+          data-umami-event="update banner refresh"
           className="cursor-pointer rounded-lg bg-warning/10 border border-warning/20 px-4 py-2 text-xs font-medium text-warning backdrop-blur-sm hover:bg-warning/15 transition-colors flex items-center gap-2"
         >
           <Icon icon="lucide:refresh-cw" width={12} />
