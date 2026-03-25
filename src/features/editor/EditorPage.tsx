@@ -105,27 +105,31 @@ export function EditorPage() {
   );
 
   return (
-    <div className="relative flex h-dvh w-screen items-center justify-center overflow-hidden pb-16 md:pb-0">
+    <div className="relative flex h-dvh w-screen flex-col overflow-hidden">
       <GridBackground />
       <TopBanner />
-      <AnimatePresence mode="wait">
-        {infiniteMode ? (
-          <InfiniteCanvas key="infinite" />
-        ) : (
-          <motion.div
-            key="single"
-            initial={{ opacity: 0, scale: 0.92, y: 16 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.95 }}
-            transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
-            className="[zoom:0.55] md:[zoom:1]"
-          >
-            <LogoCanvas />
-          </motion.div>
-        )}
-      </AnimatePresence>
-      <TextModeToggle />
-      {!infiniteMode && <Dock />}
+      <div className="relative flex flex-1 items-center justify-center min-h-0">
+        <AnimatePresence mode="wait">
+          {infiniteMode ? (
+            <InfiniteCanvas key="infinite" />
+          ) : (
+            <motion.div
+              key="single"
+              initial={{ opacity: 0, scale: 0.92, y: 16 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+              className="[zoom:0.55] md:[zoom:1]"
+            >
+              <LogoCanvas />
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
+      <div className="relative z-50 flex shrink-0 flex-col items-center gap-2 pb-3 md:pb-4">
+        <TextModeToggle />
+        {!infiniteMode && <Dock />}
+      </div>
       <IconPickerModal />
     </div>
   );
